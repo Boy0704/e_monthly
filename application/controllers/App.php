@@ -17,6 +17,18 @@ class App extends CI_Controller {
 		$this->load->view('v_index', $data);
     }
 
+    public function add_visit()
+	{
+        if ($this->session->userdata('level') == '') {
+            redirect('login');
+        }
+		$data = array(
+			'konten' => 'visit/add_visit',
+            'judul_page' => 'Add Visit',
+		);
+		$this->load->view('v_index', $data);
+    }
+
     
 
 	
