@@ -34,6 +34,7 @@
         <li><a href="Jabatan"><i class="fa fa-cube"></i> <span>Jabatan</span></a></li>
         
         <li><a href="atm"><i class="fa fa-bank"></i> <span>ATM</span></a></li>
+        <li><a href="app/add_visit"><i class="fa fa-edit"></i> <span>ADD VISIT</span></a></li>
         <li class="treeview">
           <a href="#">
               <i class="fa fa-list"></i>

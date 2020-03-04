@@ -32,6 +32,7 @@
         <table class="table table-bordered" style="margin-bottom: 10px">
             <tr>
                 <th>No</th>
+		<th>ID ATM</th>
 		<th>Nama Atm</th>
 		<th>Cabang</th>
 		<th>Outlet</th>
@@ -43,6 +44,7 @@
                 ?>
                 <tr>
 			<td width="80px"><?php echo ++$start ?></td>
+			<td><?php echo $atm->no_id ?></td>
 			<td><?php echo $atm->nama_atm ?></td>
 			<td><?php echo $atm->cabang ?></td>
 			<td><?php echo $atm->outlet ?></td>

@@ -1,5 +1,6 @@
 
         <table class="table">
+	    <tr><td>No Id</td><td><?php echo $no_id; ?></td></tr>
 	    <tr><td>Nama Atm</td><td><?php echo $nama_atm; ?></td></tr>
 	    <tr><td>Cabang</td><td><?php echo $cabang; ?></td></tr>
 	    <tr><td>Outlet</td><td><?php echo $outlet; ?></td></tr>

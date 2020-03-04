@@ -34,6 +34,7 @@
                 <th>No</th>
 		<th>Outlet</th>
 		<th>Alamat</th>
+		<th>Cabang</th>
 		<th>Action</th>
             </tr><?php
             foreach ($outlet_data as $outlet)
@@ -43,6 +44,7 @@
 			<td width="80px"><?php echo ++$start ?></td>
 			<td><?php echo $outlet->outlet ?></td>
 			<td><?php echo $outlet->alamat ?></td>
+			<td><?php echo get_data('cabang','id_cabang',$outlet->id_cabang,'cabang') ?></td>
 			<td style="text-align:center" width="200px">
 				<?php 
 				echo anchor(site_url('outlet/update/'.$outlet->id_outlet),'<span class="label label-info">Ubah</span>'); 
