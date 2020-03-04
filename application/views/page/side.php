@@ -26,38 +26,50 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
         
+        <?php 
+        if ($this->session->userdata('level') == 1) {
+          ?>
+          <li><a href="app"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
         
+          <li><a href="cabang"><i class="fa fa-map"></i> <span>Cabang</span></a></li>
+          <li><a href="Outlet"><i class="fa fa-keyboard-o"></i> <span>Outlet</span></a></li>
+          <li><a href="Jabatan"><i class="fa fa-cube"></i> <span>Jabatan</span></a></li>
+          
+          <li><a href="atm"><i class="fa fa-bank"></i> <span>ATM</span></a></li>
+          <li><a href="app/list_visit_outlet"><i class="fa fa-edit"></i> <span>VISIT OUTLET</span></a></li>
+          <li><a href="app/list_visit_atm"><i class="fa fa-edit"></i> <span>VISIT ATM</span></a></li>
+          <li class="treeview">
+            <a href="#">
+                <i class="fa fa-list"></i>
+                <span>Majemen inputan Visit</span>
+                <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href="check_header"><i class="fa fa-angle-double-right"></i> Kategori Check</a></li>
+                <li><a href="check_detail"><i class="fa fa-angle-double-right"></i> Detail Check</a></li>
+                <!-- <li><a href="stok"><i class="fa fa-angle-double-right"></i> Stok</a></li> -->
+            </ul>
+          </li>        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-users"></i>
+                <span>Majemen User</span>
+                <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href="group_user"><i class="fa fa-angle-double-right"></i> Group User</a></li>
+                <li><a href="user"><i class="fa fa-angle-double-right"></i> User</a></li>
+                <!-- <li><a href="stok"><i class="fa fa-angle-double-right"></i> Stok</a></li> -->
+            </ul>
+          </li>
+          <?php
+        } else {
+         ?>
         <li><a href="app"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li><a href="app/list_visit_outlet"><i class="fa fa-edit"></i> <span>VISIT OUTLET</span></a></li>
+          <li><a href="app/list_visit_atm"><i class="fa fa-edit"></i> <span>VISIT ATM</span></a></li>
+        <?php
+        } ?>
         
-        <li><a href="cabang"><i class="fa fa-map"></i> <span>Cabang</span></a></li>
-        <li><a href="Outlet"><i class="fa fa-keyboard-o"></i> <span>Outlet</span></a></li>
-        <li><a href="Jabatan"><i class="fa fa-cube"></i> <span>Jabatan</span></a></li>
-        
-        <li><a href="atm"><i class="fa fa-bank"></i> <span>ATM</span></a></li>
-        <li><a href="app/add_visit"><i class="fa fa-edit"></i> <span>ADD VISIT</span></a></li>
-        <li class="treeview">
-          <a href="#">
-              <i class="fa fa-list"></i>
-              <span>Majemen inputan Visit</span>
-              <i class="fa fa-angle-left pull-right"></i>
-          </a>
-          <ul class="treeview-menu">
-              <li><a href="check_header"><i class="fa fa-angle-double-right"></i> Kategori Check</a></li>
-              <li><a href="check_detail"><i class="fa fa-angle-double-right"></i> Detail Check</a></li>
-              <!-- <li><a href="stok"><i class="fa fa-angle-double-right"></i> Stok</a></li> -->
-          </ul>
-        </li>        <li class="treeview">
-          <a href="#">
-              <i class="fa fa-users"></i>
-              <span>Majemen User</span>
-              <i class="fa fa-angle-left pull-right"></i>
-          </a>
-          <ul class="treeview-menu">
-              <li><a href="group_user"><i class="fa fa-angle-double-right"></i> Group User</a></li>
-              <li><a href="user"><i class="fa fa-angle-double-right"></i> User</a></li>
-              <!-- <li><a href="stok"><i class="fa fa-angle-double-right"></i> Stok</a></li> -->
-          </ul>
-        </li>
 
         <li class="header">LABELS</li>
         <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Faqs</span></a></li>
