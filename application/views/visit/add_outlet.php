@@ -9,7 +9,7 @@
 
 				<td>
 					<input type="hidden" name="outlet" value="<?php echo $this->session->userdata('outlet'); ?>">
-					<input type="text" class="form-control" name="nama_outlet" value="<?php echo get_data('outlet','id_outlet',$this->session->userdata('outlet'),'nama_outlet'); ?>">
+					<input type="text" class="form-control" name="nama_outlet" value="<?php echo get_data('outlet','id_outlet',$this->session->userdata('outlet'),'outlet'); ?>" readonly>
 					<!-- <select name="outlet" class="form-control">
 		                <option value="">--Pilih Outlet--</option>
 		                <?php 

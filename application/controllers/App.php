@@ -198,6 +198,27 @@ class App extends CI_Controller {
         redirect('app/list_visit_outlet','refresh');
     }
 
+    public function selesai_visit_atm($approve,$id_user,$group_visit,$id_atm)
+    {
+        $outlet = get_data('atm','id_atm',$id_atm,'outlet');
+        $this->db->insert('approve', array('group_create'=>$id_user,'group_approve'=>$approve,'group_visit'=>$group_visit,'outlet'=>$outlet));
+
+        foreach ($this->db->get_where('visit_atm', array('id_user'=>$this->session->userdata('id_user'),'group_visit'=>$group_visit))->result() as $rw) {
+            $data = array(
+                'id_user' => $this->session->userdata('user_approve'),
+                'id_atm' => $id_atm,
+                'date' => get_waktu(),
+                'id_detail_check' => $rw->id_detail_check,
+                'approve' =>0,
+                'group_visit' => $group_visit,
+            );
+            $this->db->insert('visit_atm', $data);
+        }
+
+        $this->session->set_flashdata('message', alert_biasa('berhasil','success'));
+        redirect('app/list_visit_atm','refresh');
+    }
+
     public function detail_visit_outlet($g_visit)
     {
         $data = array(

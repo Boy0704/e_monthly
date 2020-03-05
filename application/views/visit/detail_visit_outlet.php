@@ -211,7 +211,7 @@ foreach ($data as $dt) {
 					  			<?php endforeach ?>
 								
 							</table>
-							<a href="app/selesai_visit_outlet/<?php echo get_data('user','id_user',$id_user,'approve').'/'.$id_user.'/'.$dt->group_visit.'/'.$dt->id_outlet; ?>"></a>
+							
 					  </div>
 					</div>
 
@@ -220,6 +220,7 @@ foreach ($data as $dt) {
 
 
 			<?php endforeach ?>
+			<a href="app/selesai_visit_outlet/<?php echo get_data('user','id_user',$id_user,'approve').'/'.$id_user.'/'.$dt->group_visit.'/'.$dt->id_outlet; ?>" class="btn btn-warning">SELESAI</a>
 
 		<?php } ?>
 

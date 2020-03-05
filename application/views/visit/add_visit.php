@@ -115,7 +115,7 @@ foreach ($b as $bd): ?>
 		  			<?php endforeach ?>
 					
 				</table>
-				<a href="app/selesai_visit_outlet/<?php echo get_data('user','id_user',$id_user,'approve').'/'.$id_user.'/'.$h->group_visit.'/'.$h->outlet; ?>"></a>
+				
 		  </div>
 		</div>
 
@@ -124,3 +124,5 @@ foreach ($b as $bd): ?>
 
 
 <?php endforeach ?>
+
+<a href="app/selesai_visit_outlet/<?php echo get_data('user','id_user',$id_user,'approve').'/'.$id_user.'/'.$h->group_visit.'/'.$h->id_outlet; ?>" class="btn btn-warning">SELESAI </a>
