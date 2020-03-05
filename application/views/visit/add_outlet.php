@@ -6,14 +6,18 @@
 			<tr>
 				<td>Outlet</td>
 				<td>:</td>
+
 				<td>
-					<select name="outlet" class="form-control">
+					<input type="hidden" name="outlet" value="<?php echo $this->session->userdata('outlet'); ?>">
+					<input type="text" class="form-control" name="nama_outlet" value="<?php echo get_data('outlet','id_outlet',$this->session->userdata('outlet'),'nama_outlet'); ?>">
+					<!-- <select name="outlet" class="form-control">
 		                <option value="">--Pilih Outlet--</option>
-		                <?php foreach ($this->db->get('outlet')->result() as $key => $value): ?>
+		                <?php 
+		                foreach ($this->db->get('outlet')->result() as $key => $value): ?>
 		                    <option value="<?php echo $value->id_outlet ?>"><?php echo $value->outlet ?></option>
 		                <?php endforeach ?>
 		                
-		            </select>
+		            </select> -->
 				</td>
 				
 			</tr>
