@@ -6,10 +6,17 @@ $h = $d_visit->row();
 	<div class="col-md-12">
 		<table class="table">
 			<tr>
-				<td>Outlet</td>
+				<td>ID ATM</td>
 				<td>:</td>
 				<td>
-					<?php echo get_data('outlet','id_outlet',$h->id_outlet,'outlet') ?>
+					<?php echo $h->id_atm ?>
+				</td>
+			</tr>
+			<tr>
+				<td>Nama ATM</td>
+				<td>:</td>
+				<td>
+					<?php echo get_data('atm','no_id',$h->id_atm,'nama_atm') ?>
 				</td>
 			</tr>
 			<tr>
@@ -24,6 +31,7 @@ $h = $d_visit->row();
 </div>
 
 <?php 
+$this->db->where('id_check', 3);
 $b = $this->db->get('check_header')->result();
 foreach ($b as $bd): ?>
 
@@ -67,7 +75,7 @@ foreach ($b as $bd): ?>
 								        <h4 class="modal-title">Yakin Akan simpan ini ?</h4>
 								      </div>
 								      <div class="modal-body">
-								        <form action="app/simpan_form_visit/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post">
+								        <form action="app/simpan_form_visit_atm/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post">
 								        	<input type="hidden" name="pilihan" value="1">
 								        	<button type="submit" class="btn btn-success btn-block">SIMPAN</button>
 								        </form>
@@ -92,7 +100,7 @@ foreach ($b as $bd): ?>
 								        <h4 class="modal-title">Yakin Akan simpan ini ?</h4>
 								      </div>
 								      <div class="modal-body">
-								        <form action="app/simpan_form_visit/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post" enctype="multipart/form-data">
+								        <form action="app/simpan_form_visit_atm/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post" enctype="multipart/form-data">
 								        	<input type="hidden" name="pilihan" value="0">
 								        	<label>Foto</label>
 								        	<input type="file" name="foto" class="form-control">
@@ -115,7 +123,7 @@ foreach ($b as $bd): ?>
 		  			<?php endforeach ?>
 					
 				</table>
-				<a href="app/selesai_visit_outlet/<?php echo get_data('user','id_user',$id_user,'approve').'/'.$id_user.'/'.$h->group_visit.'/'.$h->outlet; ?>"></a>
+				<a href="app/selesai_visit_atm/<?php echo get_data('user','id_user',$id_user,'approve').'/'.$id_user.'/'.$h->group_visit.'/'.$h->outlet; ?>"></a>
 		  </div>
 		</div>
 
