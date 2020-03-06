@@ -248,7 +248,7 @@ foreach ($data as $dt) {
 										
 									</tr>
 					  			<?php endforeach ?>
-					  			<form action="app/simpan_foto_atm/<?php echo $this->session->userdata('id_user').'/'.$rw->group_visit.'/'.$this->uri->segment(3) ?>/" method="POST" enctype="multipart/form-data">
+					  			<form action="app/simpan_foto_atm_detail/<?php echo $this->session->userdata('id_user').'/'.$rw->group_visit.'/'.$this->uri->segment(3) ?>/" method="POST" enctype="multipart/form-data">
 								<tr>
 									<td>Foto Luar</td>
 									<td>:</td>
@@ -269,7 +269,7 @@ foreach ($data as $dt) {
 									</td>
 								</tr>
 								</form>
-								<form action="app/simpan_foto_atm/<?php echo $this->session->userdata('id_user').'/'.$rw->group_visit.'/'.$this->uri->segment(3) ?>/" method="POST" enctype="multipart/form-data">
+								<form action="app/simpan_foto_atm_detail/<?php echo $this->session->userdata('id_user').'/'.$rw->group_visit.'/'.$this->uri->segment(3) ?>/" method="POST" enctype="multipart/form-data">
 								<tr>
 									<td>Foto Dalam</td>
 									<td>:</td>

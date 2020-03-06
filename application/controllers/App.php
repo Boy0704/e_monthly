@@ -332,6 +332,19 @@ class App extends CI_Controller {
         redirect('app/add_visit_form_atm/'.base64_encode($waktu).'/'.$id_user,'refresh');
     }
 
+    public function simpan_foto_atm_detail($id_user,$group_visit,$date)
+    {
+        $image = upload_gambar_biasa('foto_atm', './image/visit/', 'jpeg|jpg|png|gif', 10000, 'foto');
+        $keterangan = $this->input->post('ket');
+
+        $this->db->insert('foto_atm', array('id_user'=>$id_user,'group_visit'=>$group_visit,'foto'=>$image,'keterangan'=>$keterangan));
+
+        $waktu = base64_decode($date);
+
+        $this->session->set_flashdata('message', alert_biasa('Add Foto ATM Berhasil','success'));
+        redirect('app/detail_visit_atm/'.base64_encode($waktu).'/'.$id_user,'refresh');
+    }
+
     public function edit_visit_atm($id_approve)
     {
         $id_user = get_data('approve','id_approve',$id_approve,'group_create');
