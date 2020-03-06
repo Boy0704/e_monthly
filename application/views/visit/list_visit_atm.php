@@ -27,8 +27,9 @@
 				} elseif($this->session->userdata('level') > 1 and $this->session->userdata('status_approve') == 1) {
 					$outlet = $this->session->userdata('outlet');
 					$group_approve = $this->session->userdata('level');
-					$sql = "SELECT * FROM visit_atm ,approve WHERE visit_atm.id_user=approve.group_create and visit_atm.group_visit=approve.group_visit and approve.outlet='$outlet' and approve.group_approve='$group_approve' GROUP BY visit_atm.id_user order by approve.id_approve DESC";
+					$sql = "SELECT * FROM visit_atm ,approve WHERE visit_atm.id_user=approve.group_create and visit_atm.group_visit=approve.group_visit and approve.outlet='$outlet' and approve.group_approve='$group_approve' group by visit_atm.date order by approve.id_approve DESC";
 					$visit = $this->db->query($sql);
+					// log_r($this->db->last_query());
 				}
 				foreach ($visit->result() as $rw) {
 				 ?>
