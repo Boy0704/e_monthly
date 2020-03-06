@@ -98,6 +98,8 @@ foreach ($data as $dt) {
 
 			<?php endforeach ?>
 
+		
+
 		  <?php } else { ?>
 		  	
 			<div class="row">
@@ -141,11 +143,16 @@ foreach ($data as $dt) {
 					  			$detail = $this->db->query($sql);
 					  			// log_r($this->db->last_query());
 					  			foreach ($detail->result() as $rw): 
-					  				if ($rw->pilihan_check == '1') {
+					  				if ($rw->pilihan_check == 1) {
 					  					$ya = 'checked';
-					  				} elseif ($rw->pilihan_check == '0') {
+					  					$tidak = '';
+					  				} elseif ($rw->pilihan_check == 0 and $rw->pilihan_check != '') {
 					  					$tidak = 'checked';
-					  				} 
+					  					$ya = '';
+					  				} elseif ($rw->pilihan_check == '') {
+					  					$tidak = '';
+					  					$ya = '';
+					  				}
 					  				?>
 					  				<tr>
 										<td><?php echo $rw->detail ?></td>
@@ -222,7 +229,7 @@ foreach ($data as $dt) {
 
 
 			<?php endforeach ?>
-			<a href="app/selesai_visit_outlet/<?php echo get_data('user','id_user',$id_user,'approve').'/'.$id_user.'/'.$dt->group_visit.'/'.$dt->id_outlet; ?>" class="btn btn-warning">SELESAI</a>
+			<!-- <a href="app/selesai_visit_outlet/<?php echo get_data('user','id_user',$id_user,'approve').'/'.$id_user.'/'.$dt->group_visit.'/'.$dt->id_outlet; ?>" class="btn btn-warning">SELESAI</a> -->
 
 		<?php } ?>
 

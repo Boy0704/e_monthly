@@ -47,7 +47,7 @@ foreach ($b as $bd): ?>
 		  			$tidak = '';
 		  			$id_user = $this->session->userdata('id_user');
 		  			$date = base64_decode($this->uri->segment(3));
-		  			$sql = "SELECT v.id_visit,v.pilihan_check,v.foto,cd.detail FROM visit as v, check_detail as cd WHERE v.id_detail_check=cd.id and cd.id_check='$bd->id_check' and v.id_user='$id_user' and v.date='$date'";
+		  			$sql = "SELECT v.id_visit,v.pilihan_check,v.foto,cd.detail,v.group_visit FROM visit_atm as v, check_detail as cd WHERE v.id_detail_check=cd.id and cd.id_check='$bd->id_check' and v.id_user='$id_user' and v.date='$date'";
 		  			$detail = $this->db->query($sql);
 		  			// log_r($this->db->last_query());
 		  			foreach ($detail->result() as $rw): 
@@ -105,12 +105,8 @@ foreach ($b as $bd): ?>
 								        <h4 class="modal-title">Yakin Akan simpan ini ?</h4>
 								      </div>
 								      <div class="modal-body">
-								        <form action="app/simpan_form_visit_atm/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post" enctype="multipart/form-data">
+								        <form action="app/simpan_form_visit_atm/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post">
 								        	<input type="hidden" name="pilihan" value="0">
-								        	<label>Foto</label>
-								        	<input type="file" name="foto" class="form-control">
-								        	<label>Keterangan</label>
-								        	<textarea class="form-control" rows="3" name="ket" required=""></textarea>
 								        	<button type="submit" class="btn btn-success btn-block">SIMPAN</button>
 								        </form>
 								      </div>
@@ -125,9 +121,53 @@ foreach ($b as $bd): ?>
 							</td>
 							
 						</tr>
+						
 		  			<?php endforeach ?>
-					
+		  			<form action="app/simpan_foto_atm/<?php echo $this->session->userdata('id_user').'/'.$rw->group_visit.'/'.$this->uri->segment(3) ?>/" method="POST" enctype="multipart/form-data">
+					<tr>
+						<td>Foto Luar</td>
+						<td>:</td>
+						<td>
+							<input type="file" name="foto" class="form-control">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+						<td>
+							<textarea class="form-control" rows="3" name="ket"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+						<td>
+							<button type="submit" class="btn btn-success">Simpan</button>
+						</td>
+					</tr>
+					</form>
+					<form action="app/simpan_foto_atm/<?php echo $this->session->userdata('id_user').'/'.$rw->group_visit.'/'.$this->uri->segment(3) ?>/" method="POST" enctype="multipart/form-data">
+					<tr>
+						<td>Foto Dalam</td>
+						<td>:</td>
+						<td>
+							<input type="file" name="foto" class="form-control">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+						<td>
+							<textarea class="form-control" rows="3" name="ket"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+						<td>
+							<button type="submit" class="btn btn-success">Simpan</button>
+						</td>
+					</tr>
+					</form>
+		  			
 				</table>
+				
 				
 		  </div>
 		</div>

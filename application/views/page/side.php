@@ -65,7 +65,14 @@
         } else {
          ?>
         <li><a href="app"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-        <li><a href="app/list_visit_outlet"><i class="fa fa-edit"></i> <span>VISIT OUTLET</span></a></li>
+        <?php 
+        if ($this->session->userdata('level') != 2) {
+          ?>
+          <li><a href="app/list_visit_outlet"><i class="fa fa-edit"></i> <span>VISIT OUTLET</span></a></li>
+          <?php
+        }
+         ?>
+        
           <li><a href="app/list_visit_atm"><i class="fa fa-edit"></i> <span>VISIT ATM</span></a></li>
         <?php
         } ?>

@@ -1,12 +1,15 @@
 <?php 
+$id_user = '';
+$group_visit = '';
 $this->db->group_by('id_user');
 $this->db->order_by('date', 'asc');
 $data = $this->db->get('visit_atm')->result();
 foreach ($data as $dt) {
+	$id_outlet = get_data('atm','no_id',$dt->id_atm,'outlet');
  ?>
 <div class="row">
 	<div class="col-md-12">
-		<a href="#view<?php echo $dt->id_user ?>" class="btn btn-info btn-block" data-toggle="collapse">Outlet : <?php echo get_data('outlet','id_outlet',$dt->id_outlet,'outlet') ?> | User : <?php echo get_data('user','id_user',$dt->id_user,'nama') ?></a>
+		<a href="#view<?php echo $dt->id_user ?>" class="btn btn-info btn-block" data-toggle="collapse">Outlet : <?php echo get_data('outlet','id_outlet',$id_outlet,'outlet') ?> | User : <?php echo get_data('user','id_user',$dt->id_user,'nama') ?></a>
 		  <div id="view<?php echo $dt->id_user ?>" class="collapse">
 		    
 		  <?php 
@@ -58,11 +61,12 @@ foreach ($data as $dt) {
 					  			$tidak = '';
 					  			$id_user = $dt->id_user;
 					  			$date = $dt->date;
-					  			$sql = "SELECT v.id_visit,v.pilihan_check,v.foto,cd.detail,v.keterangan FROM visit_atm as v, check_detail as cd WHERE v.id_detail_check=cd.id and cd.id_check='$bd->id_check' and v.id_user='$id_user' and v.date='$date'";
+					  			$sql = "SELECT v.id_user, v.group_visit, v.id_visit,v.pilihan_check,v.foto,cd.detail,v.keterangan FROM visit_atm as v, check_detail as cd WHERE v.id_detail_check=cd.id and cd.id_check='$bd->id_check' and v.id_user='$id_user' and v.date='$date'";
 					  			$detail = $this->db->query($sql);
 					  			// log_r($this->db->last_query());
 					  			foreach ($detail->result() as $rw): 
-					  				
+					  				$id_user = $rw->id_user;
+					  				$group_visit = $rw->group_visit;
 					  				?>
 					  				<tr>
 										<td><?php echo $rw->detail ?></td>
@@ -73,8 +77,20 @@ foreach ($data as $dt) {
 
 										</td>
 
-										<td>
-											<?php 
+										
+										
+									</tr>
+					  			<?php endforeach ?>
+
+					  			<?php 
+					  			$data = $this->db->get_where('foto_atm', array('id_user'=>$id_user,'group_visit'=>$group_visit));
+					  			foreach ($data->result() as $rw) {
+					  			 ?>
+					  			<tr>
+									<td>Foto </td>
+									<td>:</td>
+									<td>
+										<?php 
 											if ($rw->foto != '') {
 												?>
 												<a href="image/visit/<?php echo $rw->foto ?>" target="_blank">
@@ -86,14 +102,15 @@ foreach ($data as $dt) {
 											}
 
 											 ?>
-											
-										</td>
-										<td>
-											<?php echo $keterangan ?>
-										</td>
-										
-									</tr>
-					  			<?php endforeach ?>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2"></td>
+									<td>
+										<?php echo $rw->keterangan ?>
+									</td>
+								</tr>
+								<?php } ?>
 								
 							</table>
 							
@@ -153,15 +170,23 @@ foreach ($data as $dt) {
 					  			$tidak = '';
 					  			$id_user = $dt->id_user;
 					  			$date = $dt->date;
-					  			$sql = "SELECT v.id_visit,v.pilihan_check,v.foto,cd.detail FROM visit_atm as v, check_detail as cd WHERE v.id_detail_check=cd.id and cd.id_check='$bd->id_check' and v.id_user='$id_user' and v.date='$date'";
+					  			$sql = "SELECT v.id_user,v.group_visit,v.id_visit,v.pilihan_check,v.foto,cd.detail FROM visit_atm as v, check_detail as cd WHERE v.id_detail_check=cd.id and cd.id_check='$bd->id_check' and v.id_user='$id_user' and v.date='$date'";
 					  			$detail = $this->db->query($sql);
 					  			// log_r($this->db->last_query());
 					  			foreach ($detail->result() as $rw): 
-					  				if ($rw->pilihan_check == '1') {
+					  				$id_user = $rw->id_user;
+					  				$group_visit = $rw->group_visit;
+
+					  				if ($rw->pilihan_check == 1) {
 					  					$ya = 'checked';
-					  				} elseif ($rw->pilihan_check == '0') {
+					  					$tidak = '';
+					  				} elseif ($rw->pilihan_check == 0 and $rw->pilihan_check != '') {
 					  					$tidak = 'checked';
-					  				} 
+					  					$ya = '';
+					  				} elseif ($rw->pilihan_check == '') {
+					  					$tidak = '';
+					  					$ya = '';
+					  				}
 					  				?>
 					  				<tr>
 										<td><?php echo $rw->detail ?></td>
@@ -206,12 +231,8 @@ foreach ($data as $dt) {
 											        <h4 class="modal-title">Yakin Akan simpan ini ?</h4>
 											      </div>
 											      <div class="modal-body">
-											        <form action="app/simpan_form_visit_atm/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post" enctype="multipart/form-data">
+											        <form action="app/simpan_form_visit_atm/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post">
 											        	<input type="hidden" name="pilihan" value="0">
-											        	<label>Foto</label>
-											        	<input type="file" name="foto" class="form-control">
-											        	<label>Keterangan</label>
-											        	<textarea class="form-control" rows="3" name="ket" required=""></textarea>
 											        	<button type="submit" class="btn btn-success btn-block">SIMPAN</button>
 											        </form>
 											      </div>
@@ -227,6 +248,49 @@ foreach ($data as $dt) {
 										
 									</tr>
 					  			<?php endforeach ?>
+					  			<form action="app/simpan_foto_atm/<?php echo $this->session->userdata('id_user').'/'.$rw->group_visit.'/'.$this->uri->segment(3) ?>/" method="POST" enctype="multipart/form-data">
+								<tr>
+									<td>Foto Luar</td>
+									<td>:</td>
+									<td>
+										<input type="file" name="foto" class="form-control">
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2"></td>
+									<td>
+										<textarea class="form-control" rows="3" name="ket"></textarea>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2"></td>
+									<td>
+										<button type="submit" class="btn btn-success">Simpan</button>
+									</td>
+								</tr>
+								</form>
+								<form action="app/simpan_foto_atm/<?php echo $this->session->userdata('id_user').'/'.$rw->group_visit.'/'.$this->uri->segment(3) ?>/" method="POST" enctype="multipart/form-data">
+								<tr>
+									<td>Foto Dalam</td>
+									<td>:</td>
+									<td>
+										<input type="file" name="foto" class="form-control">
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2"></td>
+									<td>
+										<textarea class="form-control" rows="3" name="ket"></textarea>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2"></td>
+									<td>
+										<button type="submit" class="btn btn-success">Simpan</button>
+									</td>
+								</tr>
+								</form>
+								
 								
 							</table>
 							
@@ -238,7 +302,9 @@ foreach ($data as $dt) {
 
 
 			<?php endforeach ?>
-			<a href="app/selesai_visit_atm/<?php echo get_data('user','id_user',$id_user,'approve').'/'.$id_user.'/'.$dt->group_visit.'/'.$dt->id_atm; ?>" class="btn btn-warning">SELESAI</a>
+			<?php if ($this->session->userdata('status_approve') == 1): ?>
+				<a href="app/selesai_visit_atm/<?php echo get_data('user','id_user',$id_user,'approve').'/'.$id_user.'/'.$dt->group_visit.'/'.$dt->id_atm; ?>" class="btn btn-warning">SELESAI</a>
+			<?php endif ?>
 
 		<?php } ?>
 
