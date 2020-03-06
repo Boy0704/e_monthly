@@ -172,7 +172,7 @@ foreach ($data as $dt) {
 											        <h4 class="modal-title">Yakin Akan simpan ini ?</h4>
 											      </div>
 											      <div class="modal-body">
-											        <form action="app/simpan_form_visit/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post">
+											        <form action="app/simpan_form_visit_detail/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post">
 											        	<input type="hidden" name="pilihan" value="1">
 											        	<button type="submit" class="btn btn-success btn-block">SIMPAN</button>
 											        </form>
@@ -197,7 +197,7 @@ foreach ($data as $dt) {
 											        <h4 class="modal-title">Yakin Akan simpan ini ?</h4>
 											      </div>
 											      <div class="modal-body">
-											        <form action="app/simpan_form_visit/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post" enctype="multipart/form-data">
+											        <form action="app/simpan_form_visit_detail/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post" enctype="multipart/form-data">
 											        	<input type="hidden" name="pilihan" value="0">
 											        	<label>Foto</label>
 											        	<input type="file" name="foto" class="form-control">

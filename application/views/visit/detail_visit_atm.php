@@ -206,7 +206,7 @@ foreach ($data as $dt) {
 											        <h4 class="modal-title">Yakin Akan simpan ini ?</h4>
 											      </div>
 											      <div class="modal-body">
-											        <form action="app/simpan_form_visit_atm/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post">
+											        <form action="app/simpan_form_visit_atm_detail/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post">
 											        	<input type="hidden" name="pilihan" value="1">
 											        	<button type="submit" class="btn btn-success btn-block">SIMPAN</button>
 											        </form>
@@ -231,7 +231,7 @@ foreach ($data as $dt) {
 											        <h4 class="modal-title">Yakin Akan simpan ini ?</h4>
 											      </div>
 											      <div class="modal-body">
-											        <form action="app/simpan_form_visit_atm/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post">
+											        <form action="app/simpan_form_visit_atm_detail/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post">
 											        	<input type="hidden" name="pilihan" value="0">
 											        	<button type="submit" class="btn btn-success btn-block">SIMPAN</button>
 											        </form>

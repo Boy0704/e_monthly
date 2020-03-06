@@ -160,6 +160,26 @@ class App extends CI_Controller {
 
     }
 
+    public function simpan_form_visit_detail($id_visit,$date,$user)
+    {
+        if ($this->input->post('pilihan') == '1') {
+            $this->db->where('id_visit', $id_visit);
+            $this->db->update('visit', array('pilihan_check'=>1));
+        } else {
+            $image = upload_gambar_biasa('visit', './image/visit/', 'jpeg|jpg|png|gif', 10000, 'foto');
+            $keterangan = $this->input->post('ket');
+
+            $this->db->where('id_visit', $id_visit);
+            $this->db->update('visit', array('pilihan_check'=>0,'foto'=>$image,'keterangan'=>$keterangan));
+        }
+
+        $waktu = base64_decode($date);
+
+        $this->session->set_flashdata('message', alert_biasa('Add Visit Berhasil','success'));
+        redirect('app/detail_visit_outlet/'.base64_encode($waktu).'/'.$user,'refresh');
+
+    }
+
     public function simpan_form_visit_atm($id_visit,$date,$user)
     {
         if ($this->input->post('pilihan') == '1') {
@@ -173,7 +193,26 @@ class App extends CI_Controller {
         $waktu = base64_decode($date);
 
         $this->session->set_flashdata('message', alert_biasa('Add Visit ATM Berhasil','success'));
+       
         redirect('app/add_visit_form_atm/'.base64_encode($waktu).'/'.$user,'refresh');
+
+    }
+
+    public function simpan_form_visit_atm_detail($id_visit,$date,$user)
+    {
+        if ($this->input->post('pilihan') == '1') {
+            $this->db->where('id_visit', $id_visit);
+            $this->db->update('visit_atm', array('pilihan_check'=>1));
+        } else {
+            $this->db->where('id_visit', $id_visit);
+            $this->db->update('visit_atm', array('pilihan_check'=>0));
+        }
+
+        $waktu = base64_decode($date);
+
+        $this->session->set_flashdata('message', alert_biasa('Add Visit ATM Berhasil','success'));
+       
+        redirect('app/detail_visit_atm/'.base64_encode($waktu).'/'.$user,'refresh');
 
     }
 
