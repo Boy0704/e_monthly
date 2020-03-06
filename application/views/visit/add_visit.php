@@ -43,11 +43,16 @@ foreach ($b as $bd): ?>
 		  			$detail = $this->db->query($sql);
 		  			// log_r($this->db->last_query());
 		  			foreach ($detail->result() as $rw): 
-		  				if ($rw->pilihan_check == '1') {
+		  				if ($rw->pilihan_check == 1) {
 		  					$ya = 'checked';
-		  				} elseif ($rw->pilihan_check == '0') {
+		  					$tidak = '';
+		  				} elseif ($rw->pilihan_check == 0 and $rw->pilihan_check != '') {
 		  					$tidak = 'checked';
-		  				} 
+		  					$ya = '';
+		  				} elseif ($rw->pilihan_check == '') {
+		  					$tidak = '';
+		  					$ya = '';
+		  				}
 		  				?>
 		  				<tr>
 							<td><?php echo $rw->detail ?></td>

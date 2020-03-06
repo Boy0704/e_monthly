@@ -58,7 +58,7 @@ foreach ($data as $dt) {
 					  			$tidak = '';
 					  			$id_user = $dt->id_user;
 					  			$date = $dt->date;
-					  			$sql = "SELECT v.id_visit,v.pilihan_check,v.foto,cd.detail FROM visit_atm as v, check_detail as cd WHERE v.id_detail_check=cd.id and cd.id_check='$bd->id_check' and v.id_user='$id_user' and v.date='$date'";
+					  			$sql = "SELECT v.id_visit,v.pilihan_check,v.foto,cd.detail,v.keterangan FROM visit_atm as v, check_detail as cd WHERE v.id_detail_check=cd.id and cd.id_check='$bd->id_check' and v.id_user='$id_user' and v.date='$date'";
 					  			$detail = $this->db->query($sql);
 					  			// log_r($this->db->last_query());
 					  			foreach ($detail->result() as $rw): 
@@ -68,7 +68,7 @@ foreach ($data as $dt) {
 										<td><?php echo $rw->detail ?></td>
 										<td>:</td>
 										<td>
-											<?php echo $rw->pilihan_check ?>
+											<?php echo $retVal = ($rw->pilihan_check == 1) ? 'ya' : 'tidak' ; ?>
 
 
 										</td>
@@ -77,7 +77,9 @@ foreach ($data as $dt) {
 											<?php 
 											if ($rw->foto != '') {
 												?>
-												<img src="image/visit/<?php echo $rw->foto ?>">
+												<a href="image/visit/<?php echo $rw->foto ?>" target="_blank">
+													<img src="image/visit/<?php echo $rw->foto ?>" style="width: 100px; height: 100px;">
+												</a>
 												<?php
 											} else {
 												echo "<i>Tidak ada foto</i>";

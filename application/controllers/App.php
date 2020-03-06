@@ -228,6 +228,24 @@ class App extends CI_Controller {
         $this->load->view('v_index', $data);
     }
 
+    public function delete_visit_outlet($id_user,$group_visit)
+    {
+        $this->db->where('id_user', $id_user);
+        $this->db->where('group_visit', $group_visit);
+        $this->db->delete('visit');
+         $this->session->set_flashdata('message', alert_biasa('berhasil hapus data','success'));
+        redirect('app/list_visit_outlet','refresh');
+    }
+
+    public function delete_visit_atm($id_user,$group_visit)
+    {
+        $this->db->where('id_user', $id_user);
+        $this->db->where('group_visit', $group_visit);
+        $this->db->delete('visit_atm');
+
+         $this->session->set_flashdata('message', alert_biasa('berhasil hapus data','success'));
+        redirect('app/list_visit_atm','refresh');
+    }
 
 
 

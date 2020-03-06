@@ -16,7 +16,7 @@
 			<tbody>
 				<?php 
 				$no = 1;
-				if ($this->session->userdata('level') == 1 and $this->session->userdata('status_approve') == 1) {
+				if ($this->session->userdata('level') == 1) {
 					$sql = "SELECT * FROM visit_atm  GROUP BY group_visit order by date DESC";
 					$visit = $this->db->query($sql);
 				} elseif($this->session->userdata('level') > 1 and $this->session->userdata('status_approve') == 0) {
