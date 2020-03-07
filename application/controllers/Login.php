@@ -25,6 +25,7 @@ class Login extends CI_Controller {
 					$sess_data['nama'] = $row->nama;
 					$sess_data['username'] = $row->username;
 					$sess_data['outlet'] = $row->outlet;
+					$sess_data['cabang'] = $row->cabang;
 					$sess_data['level'] = $row->level;
 					$sess_data['status_approve'] = $row->status_approve;
 					$sess_data['user_approve'] = $row->approve;

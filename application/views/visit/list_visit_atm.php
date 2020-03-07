@@ -27,7 +27,14 @@
 				} elseif($this->session->userdata('level') > 1 and $this->session->userdata('status_approve') == 1) {
 					$outlet = $this->session->userdata('outlet');
 					$group_approve = $this->session->userdata('level');
-					$sql = "SELECT * FROM visit_atm ,approve WHERE visit_atm.id_user=approve.group_create and visit_atm.group_visit=approve.group_visit and approve.outlet='$outlet' and approve.group_approve='$group_approve' group by visit_atm.date order by approve.id_approve DESC";
+					if ($this->session->userdata('level') == 5 || $this->session->userdata('level') == 6 || $this->session->userdata('level') == 7 || $this->session->userdata('level') == 10 || $this->session->userdata('level') == 11 || $this->session->userdata('level') == 12) {
+
+						$cabang = $this->session->userdata('cabang');
+
+						$sql = "SELECT * FROM visit_atm ,approve WHERE visit_atm.id_user=approve.group_create and visit_atm.group_visit=approve.group_visit and approve.outlet IN (SELECT id_outlet FROM outlet WHERE id_cabang='$cabang') and approve.group_approve='$group_approve' group by visit_atm.date order by approve.id_approve DESC";
+					} else {
+						$sql = "SELECT * FROM visit_atm ,approve WHERE visit_atm.id_user=approve.group_create and visit_atm.group_visit=approve.group_visit and approve.outlet='$outlet' and approve.group_approve='$group_approve' group by visit_atm.date order by approve.id_approve DESC";
+					}
 					$visit = $this->db->query($sql);
 					// log_r($this->db->last_query());
 				}
