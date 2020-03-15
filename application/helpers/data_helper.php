@@ -1,12 +1,18 @@
 <?php 
 
-// function cek_prg_atm($group_visit)
-// {
-// 	$CI =& get_instance();
-// 	$id_user = get_data('user','level',8,'id_user');
-// 	$cek = $CI->db->query("SELECT * FROM ")
+function cek_prg_atm($id_user,$group_visit)
+{
+	$CI =& get_instance();
+	$id_visit_atm = $CI->db->get_where('header_visit_atm', array('id_user'=>$id_user,'group_visit'=>$group_visit))->row()->id_visit_atm;
+	$cek = $CI->db->query("SELECT * FROM visit_atm where pilihan_check = 0 and id_visit_atm='$id_visit_atm'");
+	if ($cek->num_rows() > 0) {
+		$n = 0;
+	} else {
+		$n = 1;
+	}
+	return $n;
 	
-// }
+}
 
 function prg_atm($group_visit)
 {

@@ -8,7 +8,7 @@
 				<td>:</td>
 
 				<td>
-					<select name="id_atm" class="form-control" required="">
+					<select name="id_atm" class="form-control select2" required="">
 		                <option value="">--Pilih ID ATM--</option>
 		                <?php 
 		                $this->db->where('outlet', $this->session->userdata('outlet'));

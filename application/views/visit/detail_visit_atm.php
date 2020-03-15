@@ -131,8 +131,22 @@ foreach ($data as $dt) {
 				      <div class="modal-body">
 				        <form action="app/simpan_approve_atm/<?php echo $rw->id_visit_atm ?>" method="post" enctype="multipart/form-data">
 				        	<textarea class="form-control" rows="3" cols="90" name="komentar" required=""></textarea>
-				        	<input type="submit" name="simpan" class="btn btn-success btn-sm" value="SIMPAN" style="display: none;">
+				        	<?php 
+				        	if ($this->session->userdata('level') == 10) {
+				        		if (cek_prg_atm($dt->id_user,$dt->group_visit) == 1) {
+				        		?>
+				        		<input type="submit" name="simpan" class="btn btn-success btn-sm" value="SIMPAN">
+				        		<?php
+				        		} else {
+				        		?>
+				        		<input type="submit" name="simpan_edit" class="btn btn-warning btn-sm" value="SIMPAN & EDIT VISIT">
+				        		<?php
+				        		}
+				        	} else{
+				        	 ?>
+				        	<input type="submit" name="simpan" class="btn btn-success btn-sm" value="SIMPAN">
 				        	<input type="submit" name="simpan_edit" class="btn btn-warning btn-sm" value="SIMPAN & EDIT VISIT">
+				        	<?php } ?>
 				        </form>
 				      </div>
 				      <div class="modal-footer">
