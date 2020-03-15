@@ -1,5 +1,22 @@
 <?php 
 
+// function cek_prg_atm($group_visit)
+// {
+// 	$CI =& get_instance();
+// 	$id_user = get_data('user','level',8,'id_user');
+// 	$cek = $CI->db->query("SELECT * FROM ")
+	
+// }
+
+function prg_atm($group_visit)
+{
+	$CI =& get_instance();
+	$total = $CI->db->get_where('header_visit_atm', array('group_visit'=>$group_visit))->num_rows();
+	$done = $CI->db->get_where('header_visit_atm', array('group_visit'=>$group_visit,'approve'=>1))->num_rows();
+	$prg = ($done/$total)*100;
+	return number_format($prg);
+}
+
 function cek_approval($id_user, $approve)
 {
 	$approve_n = get_data('user','id_user',$id_user,'approve');

@@ -61,7 +61,7 @@
             <!-- <input type="text" class="form-control" name="outlet" id="outlet" placeholder="Outlet" value="<?php echo $outlet; ?>" /> -->
             <select name="outlet[]" class="form-control select2" multiple="multiple" data-placeholder="Select a Outlet"
                         style="width: 100%;">
-                <option value="<?php echo $outlet ?>"><?php echo $outlet ?></option>
+                <option value="<?php echo $outlet ?>" selected><?php echo $outlet ?></option>
                 <?php foreach ($this->db->get('outlet')->result() as $key => $value): ?>
                     <option value="<?php echo $value->id_outlet ?>"><?php echo $value->outlet ?></option>
                 <?php endforeach ?>

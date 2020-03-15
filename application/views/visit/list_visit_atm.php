@@ -10,6 +10,8 @@
 					<th>ID ATM</th>
 					<th>Date</th>
 					<th>User</th>
+					<th>Progress Approve</th>
+					<th>Dilihat</th>
 					<th>Option</th>
 				</tr>
 			</thead>
@@ -37,6 +39,17 @@
 					<td><?php echo $rw->no_id.' - '.get_data('atm','no_id',$rw->no_id,'nama_atm'); ?></td>
 					<td><?php echo $rw->date ?></td>
 					<td><?php echo get_data('user','id_user',$rw->id_user,'nama'); ?></td>
+					<td>
+						<div class="progress progress active">
+			                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="<?php echo prg_atm($rw->group_visit) ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo prg_atm($rw->group_visit) ?>%">
+			                  <span><?php echo prg_atm($rw->group_visit) ?>%</span>
+			                </div>
+			              </div>
+
+					</td>
+					<td>
+						<?php echo $retVal = ($rw->dilihat != '') ? '<span class="label label-success">'.$rw->dilihat.'</span>' : '<span class="label label-warning">Not View</span>' ; ?>
+					</td>
 					
 					<td>
 						<a href="app/detail_visit_atm/<?php echo $rw->group_visit ?>" class="label label-info">Detail</a>

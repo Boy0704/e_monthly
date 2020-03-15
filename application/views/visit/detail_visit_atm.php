@@ -112,7 +112,7 @@ foreach ($data as $dt) {
 				<?php 
 				if (cek_approval($dt->id_user, $this->session->userdata('level')) == 'ya' and $dt->approve==0) {
 					?>
-					<div class="col-md-4"><a href="#" class="btn btn-success" data-toggle="modal" data-target="#komentar_<?php echo $dt->id_visit_atm ?>">Edit Visit ATM</a></div>
+					<div class="col-md-4"><a href="#" class="btn btn-success" data-toggle="modal" data-target="#komentar_<?php echo $dt->id_visit_atm ?>">Rechecking</a></div>
 					<?php
 				}
 				 ?>
@@ -131,7 +131,7 @@ foreach ($data as $dt) {
 				      <div class="modal-body">
 				        <form action="app/simpan_approve_atm/<?php echo $rw->id_visit_atm ?>" method="post" enctype="multipart/form-data">
 				        	<textarea class="form-control" rows="3" cols="90" name="komentar" required=""></textarea>
-				        	<input type="submit" name="simpan" class="btn btn-success btn-sm" value="SIMPAN">
+				        	<input type="submit" name="simpan" class="btn btn-success btn-sm" value="SIMPAN" style="display: none;">
 				        	<input type="submit" name="simpan_edit" class="btn btn-warning btn-sm" value="SIMPAN & EDIT VISIT">
 				        </form>
 				      </div>

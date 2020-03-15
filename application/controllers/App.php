@@ -269,6 +269,24 @@ class App extends CI_Controller {
 
     public function detail_visit_atm($g_visit)
     {
+        if ($this->session->userdata('level') == 8) {
+            $dilihat = get_data('header_visit_atm','group_visit',$g_visit,'dilihat');
+            $nama = $this->session->userdata('nama');
+            $koma= '';
+            if ($dilihat != '') {
+                $koma = ', ';
+            } 
+            $cek = $this->db->query("SELECT * FROM header_visit_atm WHERE dilihat like '%$nama%' and group_visit='$g_visit' ")->num_rows();
+            if ($cek > 0) {
+                # code...
+            } else {
+                $dilihat .= $koma.''.$nama;
+                $this->db->where('group_visit', $g_visit);
+                $this->db->update('header_visit_atm', array('dilihat'=>$dilihat));
+            }
+            
+
+        }
         $data = array(
             'konten' => 'visit/detail_visit_atm',
             'judul_page' => 'Detail Visit ATM',
