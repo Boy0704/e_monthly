@@ -54,6 +54,60 @@ class App extends CI_Controller {
 		$this->load->view('v_index', $data);
     }
 
+    public function progress($jenis_visit, $progress)
+    {
+        if ($jenis_visit == 'atm') {
+            if ($progress == 'on_progress') {
+                // id_user admin cabang
+                // $arr_user = array();
+                // $this->db->select('id_user');
+                // $data_user = $this->db->get_where('user', array('level'=>10))->result();
+                // foreach ($data_user as $key => $value) {
+                //     array_push($arr_user,$value->id_user);
+                // }
+                // $id_user = implode(',', $arr_user); 
+                // $sql = $this->db->query("SELECT * FROM header_visit_atm as hv, visit_atm as va WHERE hv.group_visit=va.group_visit and hv.id_user IN ($id_user) ");
+                // log_r($this->db->last_query());
+                $this->db->group_by('group_visit');
+                $this->db->order_by('id_visit_atm', 'desc');
+                $sql = $this->db->get_where('header_visit_atm', array('progress'=>0));
+            } else {
+                $this->db->group_by('group_visit');
+                $this->db->order_by('id_visit_atm', 'desc');
+                $sql = $this->db->get_where('header_visit_atm', array('progress'=>1));
+            }
+            $data = array(
+                'konten' => 'visit/monitor_progress_atm',
+                'judul_page' => 'Monitoring Progress ATM',
+                'data'=>$sql
+            );
+            $this->load->view('v_index', $data);
+        } else {
+            if ($progress == 'on_progress') {
+                // id_user admin cabang
+                // $arr_user = array();
+                // $this->db->select('id_user');
+                // $data_user = $this->db->get_where('user', array('level'=>10))->result();
+                // foreach ($data_user as $key => $value) {
+                //     array_push($arr_user,$value->id_user);
+                // }
+                // $id_user = implode(',', $arr_user); 
+                // $sql = $this->db->query("SELECT * FROM header_visit_atm as hv, visit_atm as va WHERE hv.group_visit=va.group_visit and hv.id_user IN ($id_user) ");
+                // log_r($this->db->last_query());
+                $sql = $this->db->get_where('header_visit_outlet', array('progress'=>0));
+            } else {
+                $sql = $this->db->get_where('header_visit_outlet', array('progress'=>1));
+            }
+            $data = array(
+                'konten' => 'visit/monitor_progress_outlet',
+                'judul_page' => 'Monitoring Progress Outlet',
+                'data'=>$sql
+            );
+            $this->load->view('v_index', $data);
+        }
+
+    }
+
 
     public function add_visit_atm()
     {
@@ -318,14 +372,23 @@ class App extends CI_Controller {
         $komentar = $this->input->post('komentar');
         
         if (isset($_POST['simpan'])) {
+            //cek progress
+            $progress = 0;
+            if ($_POST['progress'] == '1') {
+                $progress = 1;
+            }
             $this->db->where('id_visit_atm', $id_visit_atm);
-            $this->db->update('header_visit_atm', array('komentar'=>$komentar,'approve'=>1));
+            $this->db->update('header_visit_atm', array('komentar'=>$komentar,'approve'=>1,'progress'=>$progress));
 
             $this->session->set_flashdata('message', alert_biasa('Komentar telah disimpan','success'));
             redirect('app/list_visit_atm','refresh');
         } elseif (isset($_POST['simpan_edit'])) {
+            $progress = 0;
+            if ($_POST['progress'] == '1') {
+                $progress = 1;
+            }
             $this->db->where('id_visit_atm', $id_visit_atm);
-            $this->db->update('header_visit_atm', array('komentar'=>$komentar,'approve'=>1));
+            $this->db->update('header_visit_atm', array('komentar'=>$komentar,'approve'=>1,'progress'=>$progress));
 
             //edit visit atm
             $id_atm = get_data('header_visit_atm','id_visit_atm',$id_visit_atm,'no_id');
@@ -347,6 +410,9 @@ class App extends CI_Controller {
                 'ket1'=>$ket1,
                 'ket2'=>$ket2,
             );
+            if ($this->session->userdata('level') == 10) {
+                $data['approve'] = 1;
+            }
             $this->db->insert('header_visit_atm', $data);
             $header_id = $this->db->insert_id();
 

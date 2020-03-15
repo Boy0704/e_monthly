@@ -49,7 +49,8 @@
                 <li><a href="check_detail"><i class="fa fa-angle-double-right"></i> Detail Check</a></li>
                 <!-- <li><a href="stok"><i class="fa fa-angle-double-right"></i> Stok</a></li> -->
             </ul>
-          </li>        <li class="treeview">
+          </li>        
+          <li class="treeview">
             <a href="#">
                 <i class="fa fa-users"></i>
                 <span>Majemen User</span>
@@ -74,6 +75,19 @@
          ?>
         
           <li><a href="app/list_visit_atm"><i class="fa fa-edit"></i> <span>VISIT ATM</span></a></li>
+          <li class="treeview">
+            <a href="#">
+                <i class="fa fa-list"></i>
+                <span>Monitoring Progress ATM</span>
+                <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href="app/progress/atm/on_progress"><i class="fa fa-angle-double-right"></i> On Progress</a></li>
+                <li><a href="app/progress/atm/done"><i class="fa fa-angle-double-right"></i> Done</a></li>
+                <!-- <li><a href="stok"><i class="fa fa-angle-double-right"></i> Stok</a></li> -->
+            </ul>
+          </li>
+
         <?php
         } ?>
         

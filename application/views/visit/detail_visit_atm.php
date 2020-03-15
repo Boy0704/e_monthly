@@ -135,15 +135,18 @@ foreach ($data as $dt) {
 				        	if ($this->session->userdata('level') == 10) {
 				        		if (cek_prg_atm($dt->id_user,$dt->group_visit) == 1) {
 				        		?>
+				        		<input type="hidden" name="progress" value="1">
 				        		<input type="submit" name="simpan" class="btn btn-success btn-sm" value="SIMPAN">
 				        		<?php
 				        		} else {
 				        		?>
+				        		<input type="hidden" name="progress" value="1">
 				        		<input type="submit" name="simpan_edit" class="btn btn-warning btn-sm" value="SIMPAN & EDIT VISIT">
 				        		<?php
 				        		}
 				        	} else{
 				        	 ?>
+				        	<input type="hidden" name="progress" value="0">
 				        	<input type="submit" name="simpan" class="btn btn-success btn-sm" value="SIMPAN">
 				        	<input type="submit" name="simpan_edit" class="btn btn-warning btn-sm" value="SIMPAN & EDIT VISIT">
 				        	<?php } ?>
