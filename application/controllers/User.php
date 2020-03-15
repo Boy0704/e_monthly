@@ -94,6 +94,8 @@ class User extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             $this->create();
         } else {
+            $n = $this->input->post('outlet');
+            $outlet = implode(',', $n);
             $data = array(
 		'nama' => $this->input->post('nama',TRUE),
 		'username' => $this->input->post('username',TRUE),
@@ -102,7 +104,7 @@ class User extends CI_Controller
 		'approve' => $this->input->post('approve',TRUE),
 		'jabatan' => $this->input->post('jabatan',TRUE),
 		'cabang' => $this->input->post('cabang',TRUE),
-		'outlet' => $this->input->post('outlet',TRUE),
+		'outlet' => $outlet,
 	    );
 
             $this->User_model->insert($data);
@@ -140,11 +142,14 @@ class User extends CI_Controller
     
     public function update_action() 
     {
+        // log_r($_POST);
         $this->_rules();
 
         if ($this->form_validation->run() == FALSE) {
             $this->update($this->input->post('id_user', TRUE));
         } else {
+            $n = $this->input->post('outlet');
+            $outlet = implode(',', $n);
             $data = array(
 		'nama' => $this->input->post('nama',TRUE),
 		'username' => $this->input->post('username',TRUE),
@@ -153,7 +158,7 @@ class User extends CI_Controller
 		'approve' => $this->input->post('approve',TRUE),
 		'jabatan' => $this->input->post('jabatan',TRUE),
 		'cabang' => $this->input->post('cabang',TRUE),
-		'outlet' => $this->input->post('outlet',TRUE),
+		'outlet' => $outlet,
 	    );
 
             $this->User_model->update($this->input->post('id_user', TRUE), $data);
@@ -185,7 +190,7 @@ class User extends CI_Controller
 	$this->form_validation->set_rules('approve', 'approve', 'trim|required');
 	$this->form_validation->set_rules('jabatan', 'jabatan', 'trim|required');
 	$this->form_validation->set_rules('cabang', 'cabang', 'trim|required');
-	$this->form_validation->set_rules('outlet', 'outlet', 'trim|required');
+	// $this->form_validation->set_rules('outlet', 'outlet', 'trim|required');
 
 	$this->form_validation->set_rules('id_user', 'id_user', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');

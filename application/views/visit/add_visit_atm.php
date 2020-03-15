@@ -9,14 +9,14 @@ $h = $d_visit->row();
 				<td>ID ATM</td>
 				<td>:</td>
 				<td>
-					<?php echo $h->id_atm ?>
+					<?php echo $h->no_id ?>
 				</td>
 			</tr>
 			<tr>
 				<td>Nama ATM</td>
 				<td>:</td>
 				<td>
-					<?php echo get_data('atm','no_id',$h->id_atm,'nama_atm') ?>
+					<?php echo get_data('atm','no_id',$h->no_id,'nama_atm') ?>
 				</td>
 			</tr>
 			<tr>
@@ -45,10 +45,8 @@ foreach ($b as $bd): ?>
 		  			<?php 
 		  			$ya = '';
 		  			$tidak = '';
-		  			$id_user = $this->session->userdata('id_user');
-		  			$date = base64_decode($this->uri->segment(3));
-		  			$sql = "SELECT v.id_visit,v.pilihan_check,v.foto,cd.detail,v.group_visit FROM visit_atm as v, check_detail as cd WHERE v.id_detail_check=cd.id and cd.id_check='$bd->id_check' and v.id_user='$id_user' and v.date='$date'";
-		  			$detail = $this->db->query($sql);
+		  			$detail = $this->db->query("SELECT * FROM visit_atm as va, check_detail as cd where cd.id=va.id_detail_check and cd.id_check=3 and va.id_visit_atm='$h->id_visit_atm' ");
+
 		  			// log_r($this->db->last_query());
 		  			foreach ($detail->result() as $rw): 
 		  				if ($rw->pilihan_check == 1) {
@@ -66,11 +64,11 @@ foreach ($b as $bd): ?>
 							<td><?php echo $rw->detail ?></td>
 							<td>:</td>
 							<td>
-								<label><input type="radio" name="pilihan_<?php echo $rw->id_visit ?>"  value="1"data-toggle="modal" data-target="#ya_<?php echo $rw->id_visit ?>" <?php echo $ya ?>> Ya </label>					
-								<label><input type="radio" name="pilihan_<?php echo $rw->id_visit ?>"  value="0"data-toggle="modal" data-target="#tidak_<?php echo $rw->id_visit ?>" <?php echo $tidak ?>> Tidak</label>	
+								<label><input type="radio" name="pilihan_<?php echo $rw->id_detail_check ?>"  value="1"data-toggle="modal" data-target="#ya_<?php echo $rw->id_detail_check ?>" <?php echo $ya ?>> Ya </label>					
+								<label><input type="radio" name="pilihan_<?php echo $rw->id_detail_check ?>"  value="0"data-toggle="modal" data-target="#tidak_<?php echo $rw->id_detail_check ?>" <?php echo $tidak ?>> Tidak</label>	
 
 								<!-- Modal -->
-								<div id="ya_<?php echo $rw->id_visit ?>" class="modal fade" role="dialog">
+								<div id="ya_<?php echo $rw->id_detail_check ?>" class="modal fade" role="dialog">
 								  <div class="modal-dialog">
 
 								    <!-- Modal content-->
@@ -80,7 +78,7 @@ foreach ($b as $bd): ?>
 								        <h4 class="modal-title">Yakin Akan simpan ini ?</h4>
 								      </div>
 								      <div class="modal-body">
-								        <form action="app/simpan_form_visit_atm/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post">
+								        <form action="app/simpan_form_visit_atm/<?php echo $rw->id_detail_check.'/'.$rw->id_visit_atm ?>" method="post">
 								        	<input type="hidden" name="pilihan" value="1">
 								        	<button type="submit" class="btn btn-success btn-block">SIMPAN</button>
 								        </form>
@@ -95,7 +93,7 @@ foreach ($b as $bd): ?>
 
 
 								<!-- Modal -->
-								<div id="tidak_<?php echo $rw->id_visit ?>" class="modal fade" role="dialog">
+								<div id="tidak_<?php echo $rw->id_detail_check ?>" class="modal fade" role="dialog">
 								  <div class="modal-dialog">
 
 								    <!-- Modal content-->
@@ -105,7 +103,7 @@ foreach ($b as $bd): ?>
 								        <h4 class="modal-title">Yakin Akan simpan ini ?</h4>
 								      </div>
 								      <div class="modal-body">
-								        <form action="app/simpan_form_visit_atm/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post">
+								        <form action="app/simpan_form_visit_atm/<?php echo $rw->id_detail_check.'/'.$rw->id_visit_atm ?>" method="post">
 								        	<input type="hidden" name="pilihan" value="0">
 								        	<button type="submit" class="btn btn-success btn-block">SIMPAN</button>
 								        </form>
@@ -123,48 +121,7 @@ foreach ($b as $bd): ?>
 						</tr>
 						
 		  			<?php endforeach ?>
-		  			<form action="app/simpan_foto_atm/<?php echo $this->session->userdata('id_user').'/'.$rw->group_visit.'/'.$this->uri->segment(3) ?>/" method="POST" enctype="multipart/form-data">
-					<tr>
-						<td>Foto Luar</td>
-						<td>:</td>
-						<td>
-							<input type="file" name="foto" class="form-control">
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2"></td>
-						<td>
-							<textarea class="form-control" rows="3" name="ket"></textarea>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2"></td>
-						<td>
-							<button type="submit" class="btn btn-success">Simpan</button>
-						</td>
-					</tr>
-					</form>
-					<form action="app/simpan_foto_atm/<?php echo $this->session->userdata('id_user').'/'.$rw->group_visit.'/'.$this->uri->segment(3) ?>/" method="POST" enctype="multipart/form-data">
-					<tr>
-						<td>Foto Dalam</td>
-						<td>:</td>
-						<td>
-							<input type="file" name="foto" class="form-control">
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2"></td>
-						<td>
-							<textarea class="form-control" rows="3" name="ket"></textarea>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2"></td>
-						<td>
-							<button type="submit" class="btn btn-success">Simpan</button>
-						</td>
-					</tr>
-					</form>
+		  			
 		  			
 				</table>
 				
@@ -178,4 +135,56 @@ foreach ($b as $bd): ?>
 
 <?php endforeach ?>
 
-<a href="app/selesai_visit_atm/<?php echo get_data('user','id_user',$id_user,'approve').'/'.$id_user.'/'.$h->group_visit.'/'.$h->id_atm; ?>" class="btn btn-warning">SELESAI</a>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-info">
+		  <div class="panel-heading">Foto ATM</div>
+		  <div class="panel-body">
+		  	<form action="app/simpan_foto_atm/<?php echo $this->uri->segment(3) ?>" method="POST" enctype="multipart/form-data">
+			
+			<div class="form-group">
+				<label>Foto Dalam</label>
+				<input type="file" name="foto1" class="form-control" >
+				<?php 
+				if ($h->foto1 == '') {
+					echo "*) <i>Tidak ada foto</i>";
+				} else {
+				 ?>
+				<p>*) Foto Sebelumnya :</p>
+				<img src="image/visit/<?php echo $h->foto1 ?>" style="width: 100px;">
+				<?php } ?>
+			</div>
+
+			<div class="form-group">
+				<label>Keterangan</label>
+				<textarea class="form-control" name="ket1" required=""><?php echo $retVal = ($h->ket1 != '') ? $h->ket1 : '' ; ?></textarea>
+			</div>
+
+			<div class="form-group">
+				<label>Foto Luar</label>
+				<input type="file" name="foto2" class="form-control" >
+				<?php 
+				if ($h->foto2 == '') {
+					echo "*) <i>Tidak ada foto</i>";
+				} else {
+				 ?>
+				<p>*) Foto Sebelumnya :</p>
+				<img src="image/visit/<?php echo $h->foto2 ?>" style="width: 100px;">
+				<?php } ?>
+			</div>
+
+			<div class="form-group">
+				<label>Keterangan</label>
+				<textarea class="form-control" name="ket2" required=""><?php echo $retVal = ($h->ket2 != '') ? $h->ket2 : '' ; ?></textarea>
+			</div>
+
+			<div class="form-group">
+				<button type="submit" class="btn btn-info">Simpan</button>
+			</div>
+			</form>
+		  </div>
+	</div>
+</div>
+
+<a href="app/selesai_visit_atm/<?php echo $this->uri->segment(3) ?>" class="btn btn-warning">SELESAI</a>

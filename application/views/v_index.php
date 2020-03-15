@@ -28,8 +28,7 @@
   <!-- jQuery 3 -->
 <script type="text/javascript" src="assets/pace/pace.min.js"></script>
 <script src="assets/bower_components/jquery/dist/jquery.min.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script type="text/javascript"><?php echo $this->session->userdata('message') ?></script>
+
 
 <!-- Bootstrap 3.3.7 -->
 
@@ -194,5 +193,7 @@
     })
   })
 </script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript"><?php echo $this->session->userdata('message') ?></script>
 </body>
 </html>

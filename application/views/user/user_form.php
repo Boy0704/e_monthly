@@ -59,13 +59,28 @@
 	    <div class="form-group">
             <label for="int">Outlet <?php echo form_error('outlet') ?></label>
             <!-- <input type="text" class="form-control" name="outlet" id="outlet" placeholder="Outlet" value="<?php echo $outlet; ?>" /> -->
-            <select name="outlet" class="form-control">
+            <select name="outlet[]" class="form-control select2" multiple="multiple" data-placeholder="Select a Outlet"
+                        style="width: 100%;">
                 <option value="<?php echo $outlet ?>"><?php echo $outlet ?></option>
                 <?php foreach ($this->db->get('outlet')->result() as $key => $value): ?>
                     <option value="<?php echo $value->id_outlet ?>"><?php echo $value->outlet ?></option>
                 <?php endforeach ?>
                 
             </select>
+
+            <!-- <div class="form-group">
+                <label>Multiple</label>
+                <select class="form-control select2" multiple="multiple" data-placeholder="Select a State"
+                        style="width: 100%;">
+                  <option>Alabama</option>
+                  <option>Alaska</option>
+                  <option>California</option>
+                  <option>Delaware</option>
+                  <option>Tennessee</option>
+                  <option>Texas</option>
+                  <option>Washington</option>
+                </select>
+              </div> -->
         </div>
 	    <input type="hidden" name="id_user" value="<?php echo $id_user; ?>" /> 
 	    <button type="submit" class="btn btn-primary"><?php echo $button ?></button> 

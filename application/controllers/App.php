@@ -81,16 +81,16 @@ class App extends CI_Controller {
 		$this->load->view('v_index', $data);
     }
 
-    public function add_visit_form_atm($date,$id_user)
+    public function add_visit_form_atm($id_header)
     {
         if ($this->session->userdata('level') == '') {
             redirect('login');
         }
-        $date = base64_decode($date);
+        
         $data = array(
             'konten' => 'visit/add_visit_atm',
             'judul_page' => 'Add Visit ATM',
-            'd_visit' => $this->db->get_where('visit_atm', array('id_user'=>$id_user,'date'=>$date))
+            'd_visit' => $this->db->get_where('header_visit_atm', array('id_visit_atm'=>$id_header))
         );
         $this->load->view('v_index', $data);
     }
@@ -123,19 +123,27 @@ class App extends CI_Controller {
         $waktu = $this->input->post('waktu');
         $user = $this->session->userdata('id_user');
         $group_visit = time();
+
+        $data = array(
+            'id_user'=>$user,
+            'no_id'=>$id_atm,
+            'date'=>$waktu,
+            'group_visit'=>$group_visit,
+        );
+        $this->db->insert('header_visit_atm', $data);
+        $header_id = $this->db->insert_id();
+
         $this->db->where('id_check', 3);
         foreach ($this->db->get('check_detail')->result() as $rw) {
             $data = array(
-                'id_user' => $user,
-                'id_atm' => $id_atm,
-                'date' => $waktu,
                 'id_detail_check' => $rw->id,
                 'group_visit' => $group_visit,
+                'id_visit_atm' => $header_id,
             );
             $this->db->insert('visit_atm', $data);
         }
         $this->session->set_flashdata('message', alert_biasa('Add Visit Berhasil, silahkan isi form berikut ini','info'));
-        redirect('app/add_visit_form_atm/'.base64_encode($waktu).'/'.$user,'refresh');
+        redirect('app/add_visit_form_atm/'.$header_id,'refresh');
 
 
     }
@@ -180,21 +188,22 @@ class App extends CI_Controller {
 
     }
 
-    public function simpan_form_visit_atm($id_visit,$date,$user)
+    public function simpan_form_visit_atm($id_detail_check,$id_visit_atm)
     {
         if ($this->input->post('pilihan') == '1') {
-            $this->db->where('id_visit', $id_visit);
+            $this->db->where('id_visit_atm', $id_visit_atm);
+            $this->db->where('id_detail_check', $id_detail_check);
             $this->db->update('visit_atm', array('pilihan_check'=>1));
         } else {
-            $this->db->where('id_visit', $id_visit);
+            $this->db->where('id_visit_atm', $id_visit_atm);
+            $this->db->where('id_detail_check', $id_detail_check);
             $this->db->update('visit_atm', array('pilihan_check'=>0));
         }
 
-        $waktu = base64_decode($date);
 
         $this->session->set_flashdata('message', alert_biasa('Add Visit ATM Berhasil','success'));
        
-        redirect('app/add_visit_form_atm/'.base64_encode($waktu).'/'.$user,'refresh');
+        redirect('app/add_visit_form_atm/'.$id_visit_atm,'refresh');
 
     }
 
@@ -225,15 +234,28 @@ class App extends CI_Controller {
         redirect('app/list_visit_outlet','refresh');
     }
 
-    public function selesai_visit_atm($approve,$id_user,$group_visit,$id_atm)
+    public function selesai_visit_atm($id_visit_atm)
     {
-        $outlet = get_data('atm','no_id',$id_atm,'outlet');
-        $this->db->insert('approve', array('group_create'=>$id_user,'group_approve'=>$approve,'group_visit'=>$group_visit,'outlet'=>$outlet));
+        // $outlet = get_data('atm','no_id',$id_atm,'outlet');
+        // $this->db->insert('approve', array('group_create'=>$id_user,'group_approve'=>$approve,'group_visit'=>$group_visit,'outlet'=>$outlet));
 
        
 
-        $this->session->set_flashdata('message', alert_biasa('berhasil','success'));
-        redirect('app/list_visit_atm','refresh');
+        // $this->session->set_flashdata('message', alert_biasa('berhasil','success'));
+        // redirect('app/list_visit_atm','refresh');
+
+        $cek_header = $this->db->query("SELECT * FROM header_visit_atm WHERE ( foto1 IS NULL OR foto2 IS NULL OR ket1 IS NULL OR ket2 IS NULL ) or (foto1 ='' OR foto2 ='' OR ket1 ='' OR ket2 ='') and id_visit_atm='$id_visit_atm' ");
+        $cek_detail = $this->db->query("SELECT * FROM visit_atm WHERE (pilihan_check is null  or pilihan_check ='' and pilihan_check!=0) and id_visit_atm='$id_visit_atm' ");
+
+        if ($cek_header->num_rows() > 0 || $cek_detail->num_rows() > 0) {
+            $this->session->set_flashdata('message', alert_biasa('masih ada data yang belum terisi','info'));
+            redirect('app/add_visit_form_atm/'.$id_visit_atm,'refresh');
+        } else {
+            $this->session->set_flashdata('message', alert_biasa('Visit Selesai dilakukan','success'));
+            redirect('app/list_visit_atm','refresh');
+        }
+
+
     }
 
     public function detail_visit_outlet($g_visit)
@@ -273,26 +295,59 @@ class App extends CI_Controller {
         redirect('app/list_visit_atm','refresh');
     }
 
-    public function simpan_approve_atm($id_approve)
+    public function simpan_approve_atm($id_visit_atm)
     {
-        $id_user = get_data('approve','id_approve',$id_approve,'group_create');
-        $group_visit = get_data('approve','id_approve',$id_approve,'group_visit');
-        $approve = $this->input->post('approve');
-        $ket = $this->input->post('ket');
+        $komentar = $this->input->post('komentar');
+        
+        if (isset($_POST['simpan'])) {
+            $this->db->where('id_visit_atm', $id_visit_atm);
+            $this->db->update('header_visit_atm', array('komentar'=>$komentar,'approve'=>1));
 
-        $data = array(
-            'id_user'=>$id_user,
-            'group_visit'=>$group_visit,
-            'user_approve'=>$this->session->userdata('id_user'),
-            'ket'=>$ket,
-        );
-        $this->db->insert('komentar', $data);
+            $this->session->set_flashdata('message', alert_biasa('Komentar telah disimpan','success'));
+            redirect('app/list_visit_atm','refresh');
+        } elseif (isset($_POST['simpan_edit'])) {
+            $this->db->where('id_visit_atm', $id_visit_atm);
+            $this->db->update('header_visit_atm', array('komentar'=>$komentar,'approve'=>1));
 
-        //upadet approve
-        $this->db->where('id_user', $id_user);
-        $this->db->where('group_visit', $group_visit);
-        $this->db->update('visit_atm', array('approve'=>1));
-        redirect('app/list_visit_atm','refresh');
+            //edit visit atm
+            $id_atm = get_data('header_visit_atm','id_visit_atm',$id_visit_atm,'no_id');
+            $waktu = get_waktu();
+            $user = $this->session->userdata('id_user');
+            $group_visit = get_data('header_visit_atm','id_visit_atm',$id_visit_atm,'group_visit');
+            $foto1 = get_data('header_visit_atm','id_visit_atm',$id_visit_atm,'foto1');
+            $foto2 = get_data('header_visit_atm','id_visit_atm',$id_visit_atm,'foto2');
+            $ket1 = get_data('header_visit_atm','id_visit_atm',$id_visit_atm,'ket1');
+            $ket2 = get_data('header_visit_atm','id_visit_atm',$id_visit_atm,'ket2');
+
+            $data = array(
+                'id_user'=>$user,
+                'no_id'=>$id_atm,
+                'date'=>$waktu,
+                'group_visit'=>$group_visit,
+                'foto1'=>$foto1,
+                'foto2'=>$foto2,
+                'ket1'=>$ket1,
+                'ket2'=>$ket2,
+            );
+            $this->db->insert('header_visit_atm', $data);
+            $header_id = $this->db->insert_id();
+
+            $this->db->where('id_visit_atm', $id_visit_atm);
+            foreach ($this->db->get('visit_atm')->result() as $rw) {
+                $data = array(
+                    'id_detail_check' => $rw->id_detail_check,
+                    'pilihan_check'=>$rw->pilihan_check,
+                    'group_visit' => $rw->group_visit,
+                    'id_visit_atm' => $header_id,
+                );
+                $this->db->insert('visit_atm', $data);
+            }
+            
+
+            $this->session->set_flashdata('message', alert_biasa('Komentar telah disimpan dan silahkan edit visit ini','success'));
+            redirect('app/add_visit_form_atm/'.$header_id,'refresh');
+        }
+
 
     }
 
@@ -319,17 +374,23 @@ class App extends CI_Controller {
 
     }
 
-    public function simpan_foto_atm($id_user,$group_visit,$date)
+    public function simpan_foto_atm($id_visit_atm)
     {
-        $image = upload_gambar_biasa('foto_atm', './image/visit/', 'jpeg|jpg|png|gif', 10000, 'foto');
-        $keterangan = $this->input->post('ket');
+        $image1 = upload_gambar_biasa('foto_atm', './image/visit/', 'jpeg|jpg|png|gif', 10000, 'foto1');
+        $ket1 = $this->input->post('ket1');
+        $image2 = upload_gambar_biasa('foto_atm', './image/visit/', 'jpeg|jpg|png|gif', 10000, 'foto2');
+        $ket2 = $this->input->post('ket2');
 
-        $this->db->insert('foto_atm', array('id_user'=>$id_user,'group_visit'=>$group_visit,'foto'=>$image,'keterangan'=>$keterangan));
-
-        $waktu = base64_decode($date);
+        $this->db->where('id_visit_atm', $id_visit_atm);
+        $this->db->update('header_visit_atm', array(
+            'foto1'=>$image1,
+            'foto2'=>$image2,
+            'ket1'=>$ket1,
+            'ket2'=>$ket2,
+        ));
 
         $this->session->set_flashdata('message', alert_biasa('Add Foto ATM Berhasil','success'));
-        redirect('app/add_visit_form_atm/'.base64_encode($waktu).'/'.$id_user,'refresh');
+        redirect('app/add_visit_form_atm/'.$id_visit_atm,'refresh');
     }
 
     public function simpan_foto_atm_detail($id_user,$group_visit,$date)
@@ -345,26 +406,9 @@ class App extends CI_Controller {
         redirect('app/detail_visit_atm/'.base64_encode($waktu).'/'.$id_user,'refresh');
     }
 
-    public function edit_visit_atm($id_approve)
+    public function edit_visit_atm($id_visit_atm)
     {
-        $id_user = get_data('approve','id_approve',$id_approve,'group_create');
-        $group_visit = get_data('approve','id_approve',$id_approve,'group_visit');
-
-        $this->db->where('id_user', $id_user);
-        $this->db->where('group_visit', $group_visit);
-        foreach ($this->db->get('visit_atm')->result() as $rw) {
-            $data = array(
-                'id_user'=>$this->session->userdata('id_user'),
-                'id_atm'=>$rw->id_atm,
-                'date'=>$rw->date,
-                'id_detail_check'=>$rw->id_detail_check,
-                'pilihan_check'=>$rw->pilihan_check,
-                'keterangan'=>$rw->keterangan,
-                'group_visit'=>$rw->group_visit,
-            );
-            $this->db->insert('visit_atm', $data);
-        }
-        redirect('app/detail_visit_atm/'.$group_visit,'refresh');
+        
     }
 
     public function edit_visit_outlet($id_approve)

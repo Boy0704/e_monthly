@@ -8,6 +8,7 @@
 				<tr>
 					<th>No.</th>
 					<th>Outlet</th>
+					<th>Date</th>
 					<th>User</th>
 					<th>Approve</th>
 					<th>Option</th>
@@ -18,32 +19,17 @@
 				$no = 1;
 				$visit='';
 				if ($this->session->userdata('level') == 1) {
-					$sql = "SELECT * FROM visit  GROUP BY group_visit order by date DESC";
+					$sql = "SELECT * FROM header_visit_outlet  order by date DESC";
 					$visit = $this->db->query($sql);
-				} elseif($this->session->userdata('level') > 1 and $this->session->userdata('status_approve') == 0) {
-					$id_user = $this->session->userdata('id_user');
-					$outlet = $this->session->userdata('outlet');
-					$sql = "SELECT * FROM visit WHERE id_user='$id_user' and id_outlet='$outlet'  GROUP BY group_visit order by date DESC";
-					$visit = $this->db->query($sql);
-				} elseif($this->session->userdata('level') > 1 or $this->session->userdata('level') == 3 and $this->session->userdata('status_approve') == 1) {
-					$outlet = $this->session->userdata('outlet');
-					$group_approve = $this->session->userdata('level');
-					if ($this->session->userdata('level') == 5 || $this->session->userdata('level') == 6 || $this->session->userdata('level') == 7 || $this->session->userdata('level') == 10 || $this->session->userdata('level') == 11 || $this->session->userdata('level') == 12) {
-
-						$cabang = $this->session->userdata('cabang');
-						$sql = "SELECT * FROM visit ,approve WHERE visit.id_user=approve.group_create and visit.group_visit=approve.group_visit and approve.outlet IN (SELECT id_outlet FROM outlet WHERE id_cabang='$cabang') and approve.group_approve='$group_approve' group by visit.date order by approve.id_approve DESC";
-						
-					} else {
-						$sql = "SELECT * FROM visit ,approve WHERE visit.id_user=approve.group_create and visit.group_visit=approve.group_visit and approve.outlet='$outlet' and approve.group_approve='$group_approve' group by visit.date order by approve.id_approve DESC";
-					}
+				} elseif($this->session->userdata('level') == 2 && $this->session->userdata('level') == 3) {
 					
-					$visit = $this->db->query($sql);
 				}
 				foreach ($visit->result() as $rw) {
 				 ?>
 				<tr>
 					<td><?php echo $no; ?></td>
 					<td><?php echo get_data('outlet','id_outlet',$rw->id_outlet,'outlet'); ?></td>
+					<td><?php echo $rw->date ?></td>
 					<td><?php echo get_data('user','id_user',$rw->id_user,'nama'); ?></td>
 					<td><?php echo $retVal = ($rw->approve == 1) ? '<span class="label label-success">ya</span>' : '<span class="label label-warning">tidak</span>' ; ?></td>
 					<td>

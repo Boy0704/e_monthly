@@ -1,22 +1,17 @@
 <?php 
 
-function cek_ppn($no_po)
+function cek_approval($id_user, $approve)
 {
-	$cek = get_data('po_master','no_po',$no_po,'ppn');
-	if ($cek == NULL) {
-		$cek = 0;
+	$approve_n = get_data('user','id_user',$id_user,'approve');
+	$n = '';
+	if ($approve_n == $approve) {
+		$n = 'ya';
+	} else {
+		$n = 'tidak';
 	}
-	return $cek;
+	return $n;
 }
 
-function cek_return($n,$no)
-{
-	if ($n == '0') {
-		return '<a href="app/ubah_return/'.$no.'" onclick="javasciprt: return confirm(\'Are You Sure ?\')"><label class="label label-info"><i class="fa fa-close"></i></label></a>';
-	} else {
-		return '<label class="label label-success"><i class="fa fa-check"></i></label>';
-	}
-}
 
 function create_random($length)
 {
