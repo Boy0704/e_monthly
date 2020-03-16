@@ -66,15 +66,29 @@
         } else {
          ?>
         <li><a href="app"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-        <?php 
-        if ($this->session->userdata('level') != 2) {
-          ?>
-          <li><a href="app/list_visit_outlet"><i class="fa fa-edit"></i> <span>VISIT OUTLET</span></a></li>
-          <?php
-        }
-         ?>
+        
         
           <li><a href="app/list_visit_atm"><i class="fa fa-edit"></i> <span>VISIT ATM</span></a></li>
+          <?php 
+          if ($this->session->userdata('level') != 2) {
+            ?>
+            <li><a href="app/list_visit_outlet"><i class="fa fa-edit"></i> <span>VISIT OUTLET</span></a></li>
+
+            <li class="treeview">
+            <a href="#">
+                <i class="fa fa-list"></i>
+                <span>Monitoring Progress Outlet</span>
+                <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href="app/progress/outlet/on_progress"><i class="fa fa-angle-double-right"></i> On Progress</a></li>
+                <li><a href="app/progress/outlet/done"><i class="fa fa-angle-double-right"></i> Done</a></li>
+                <!-- <li><a href="stok"><i class="fa fa-angle-double-right"></i> Stok</a></li> -->
+            </ul>
+          </li>
+            <?php
+          }
+           ?>
           <li class="treeview">
             <a href="#">
                 <i class="fa fa-list"></i>

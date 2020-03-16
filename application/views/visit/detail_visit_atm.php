@@ -147,7 +147,7 @@ foreach ($data as $dt) {
 				        	} else{
 				        	 ?>
 				        	<input type="hidden" name="progress" value="0">
-				        	<input type="submit" name="simpan" class="btn btn-success btn-sm" value="SIMPAN">
+				        	<input type="submit" name="simpan" class="btn btn-success btn-sm" value="SIMPAN" style="display: none;">
 				        	<input type="submit" name="simpan_edit" class="btn btn-warning btn-sm" value="SIMPAN & EDIT VISIT">
 				        	<?php } ?>
 				        </form>

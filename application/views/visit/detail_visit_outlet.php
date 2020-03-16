@@ -1,18 +1,16 @@
 <?php 
-$this->db->group_by('id_user');
-$this->db->order_by('date', 'asc');
-$data = $this->db->get('visit')->result();
+$id_user = '';
+$group_visit=$this->uri->segment(3);
+$sql = "SELECT * FROM header_visit_outlet as hv, visit as va where hv.id_visit_outlet=va.id_visit_outlet and va.group_visit='$group_visit' GROUP BY hv.id_user ";
+$data = $this->db->query($sql)->result();
+// log_r($this->db->last_query());
 foreach ($data as $dt) {
  ?>
 <div class="row">
 	<div class="col-md-12">
-		<a href="#view<?php echo $dt->id_user ?>" class="btn btn-info btn-block" data-toggle="collapse">Outlet : <?php echo get_data('outlet','id_outlet',$dt->id_outlet,'outlet') ?> | User : <?php echo get_data('user','id_user',$dt->id_user,'nama') ?></a>
-		  <div id="view<?php echo $dt->id_user ?>" class="collapse">
-		    
-		  <?php 
-		  if ($dt->id_user != $this->session->userdata('id_user')) {
-		   ?>
-
+		<a href="#view<?php echo $dt->id_user ?>" class="btn btn-info btn-block" data-toggle="collapse">Outlet : <?php echo get_data('outlet','id_outlet',$dt->id_outlet,'outlet') ?> | User : <?php echo get_data('user','id_user',$dt->id_user,'nama') ?> | <?php echo $retVal = ($dt->approve == 1) ? '<span class="label label-success">Sudah di Approve</span>' : '<span class="label label-warning">Belum di approve</span>' ; ?></a>
+		  <div id="view<?php echo $dt->id_user ?>" class="collapse" >
+		  
 		   <div class="row">
 				<div class="col-md-12">
 					<table class="table">
@@ -36,7 +34,7 @@ foreach ($data as $dt) {
 
 			<?php 
 			$b = $this->db->get('check_header')->result();
-			foreach ($b as $bd): ?>
+			foreach ($b as $bd) { ?>
 
 			<div class="row">
 				<div class="col-md-12">
@@ -48,13 +46,9 @@ foreach ($data as $dt) {
 					  			<?php 
 					  			$ya = '';
 					  			$tidak = '';
-					  			$id_user = $dt->id_user;
-					  			$date = $dt->date;
-					  			$sql = "SELECT v.id_visit,v.pilihan_check,v.foto,cd.detail,v.keterangan FROM visit as v, check_detail as cd WHERE v.id_detail_check=cd.id and cd.id_check='$bd->id_check' and v.id_user='$id_user' and v.date='$date'";
-					  			$detail = $this->db->query($sql);
+					  			$detail = $this->db->query("SELECT * FROM visit as va, check_detail as cd where cd.id=va.id_detail_check and cd.id_check='$bd->id_check' and va.id_visit_outlet='$dt->id_visit_outlet' ");
 					  			// log_r($this->db->last_query());
-					  			foreach ($detail->result() as $rw): 
-					  				
+					  			foreach ($detail->result() as $rw){
 					  				?>
 					  				<tr>
 										<td><?php echo $rw->detail ?></td>
@@ -64,7 +58,6 @@ foreach ($data as $dt) {
 
 
 										</td>
-
 										<td>
 											<?php 
 											if ($rw->foto != '') {
@@ -83,9 +76,13 @@ foreach ($data as $dt) {
 										<td>
 											<?php echo $rw->keterangan ?>
 										</td>
+
+										
 										
 									</tr>
-					  			<?php endforeach ?>
+					  			<?php } ?>
+
+					  			
 								
 							</table>
 							
@@ -95,145 +92,66 @@ foreach ($data as $dt) {
 				</div>
 			</div>
 
+			
 
-			<?php endforeach ?>
-
-		
-
-		  <?php } else { ?>
-		  	
-			<div class="row">
-				<div class="col-md-12">
-					<table class="table">
-						<tr>
-							<td>Outlet</td>
-							<td>:</td>
-							<td>
-								<?php echo get_data('outlet','id_outlet',$dt->id_outlet,'outlet') ?>
-							</td>
-						</tr>
-						<tr>
-							<td>Tanggal / Waktu</td>
-							<td>:</td>
-							<td>
-								<?php echo $dt->date ?>
-							</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-
-			<?php 
-			$b = $this->db->get('check_header')->result();
-			foreach ($b as $bd): ?>
+			<?php } ?>
 
 			<div class="row">
-				<div class="col-md-12">
-					<div class="panel panel-info">
-					  <div class="panel-heading"><?php echo $bd->judul ?></div>
-					  <div class="panel-body">
-					  		
-					  		<table class="table">
-					  			<?php 
-					  			$ya = '';
-					  			$tidak = '';
-					  			$id_user = $dt->id_user;
-					  			$date = $dt->date;
-					  			$sql = "SELECT v.id_visit,v.pilihan_check,v.foto,cd.detail FROM visit as v, check_detail as cd WHERE v.id_detail_check=cd.id and cd.id_check='$bd->id_check' and v.id_user='$id_user' and v.date='$date'";
-					  			$detail = $this->db->query($sql);
-					  			// log_r($this->db->last_query());
-					  			foreach ($detail->result() as $rw): 
-					  				if ($rw->pilihan_check == 1) {
-					  					$ya = 'checked';
-					  					$tidak = '';
-					  				} elseif ($rw->pilihan_check == 0 and $rw->pilihan_check != '') {
-					  					$tidak = 'checked';
-					  					$ya = '';
-					  				} elseif ($rw->pilihan_check == '') {
-					  					$tidak = '';
-					  					$ya = '';
-					  				}
-					  				?>
-					  				<tr>
-										<td><?php echo $rw->detail ?></td>
-										<td>:</td>
-										<td>
-											<label><input type="radio" name="pilihan_<?php echo $rw->id_visit ?>"  value="1"data-toggle="modal" data-target="#ya_<?php echo $rw->id_visit ?>" <?php echo $ya ?>> Ya </label>					
-											<label><input type="radio" name="pilihan_<?php echo $rw->id_visit ?>"  value="0"data-toggle="modal" data-target="#tidak_<?php echo $rw->id_visit ?>" <?php echo $tidak ?>> Tidak</label>	
+				<?php 
+				if (cek_approval($dt->id_user, $this->session->userdata('level')) == 'ya' and $dt->approve==0) {
+					?>
+					<div class="col-md-4"><a href="#" class="btn btn-success" data-toggle="modal" data-target="#komentar_<?php echo $dt->id_visit_outlet ?>">Rechecking</a></div>
+					<?php
+				}
+				 ?>
+				
 
-											<!-- Modal -->
-											<div id="ya_<?php echo $rw->id_visit ?>" class="modal fade" role="dialog">
-											  <div class="modal-dialog">
+				<!-- Modal -->
+				<div id="komentar_<?php echo $dt->id_visit_outlet ?>" class="modal fade" role="dialog">
+				  <div class="modal-dialog">
 
-											    <!-- Modal content-->
-											    <div class="modal-content">
-											      <div class="modal-header">
-											        <button type="button" class="close" data-dismiss="modal">&times;</button>
-											        <h4 class="modal-title">Yakin Akan simpan ini ?</h4>
-											      </div>
-											      <div class="modal-body">
-											        <form action="app/simpan_form_visit_detail/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post">
-											        	<input type="hidden" name="pilihan" value="1">
-											        	<button type="submit" class="btn btn-success btn-block">SIMPAN</button>
-											        </form>
-											      </div>
-											      <div class="modal-footer">
-											        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-											      </div>
-											    </div>
+				    <!-- Modal content-->
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal">&times;</button>
+				        <h4 class="modal-title">Berikan Komentar !</h4>
+				      </div>
+				      <div class="modal-body">
+				        <form action="app/simpan_approve_outlet/<?php echo $rw->id_visit_outlet ?>" method="post" enctype="multipart/form-data">
+				        	<textarea class="form-control" rows="3" cols="90" name="komentar" required=""></textarea>
+				        	<?php 
+				        	if ($this->session->userdata('level') == 10) {
+				        		if (cek_prg_outlet($dt->id_user,$dt->group_visit) == 1) {
+				        		?>
+				        		<input type="hidden" name="progress" value="1">
+				        		<input type="submit" name="simpan" class="btn btn-success btn-sm" value="SIMPAN">
+				        		<?php
+				        		} else {
+				        		?>
+				        		<input type="hidden" name="progress" value="1">
+				        		<input type="submit" name="simpan_edit" class="btn btn-warning btn-sm" value="SIMPAN & EDIT VISIT">
+				        		<?php
+				        		}
+				        	} else{
+				        	 ?>
+				        	<input type="hidden" name="progress" value="0">
+				        	<input type="submit" name="simpan" class="btn btn-success btn-sm" value="SIMPAN" style="display: none;">
+				        	<input type="submit" name="simpan_edit" class="btn btn-warning btn-sm" value="SIMPAN & EDIT VISIT">
+				        	<?php } ?>
+				        </form>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				      </div>
+				    </div>
 
-											  </div>
-											</div>
-
-
-											<!-- Modal -->
-											<div id="tidak_<?php echo $rw->id_visit ?>" class="modal fade" role="dialog">
-											  <div class="modal-dialog">
-
-											    <!-- Modal content-->
-											    <div class="modal-content">
-											      <div class="modal-header">
-											        <button type="button" class="close" data-dismiss="modal">&times;</button>
-											        <h4 class="modal-title">Yakin Akan simpan ini ?</h4>
-											      </div>
-											      <div class="modal-body">
-											        <form action="app/simpan_form_visit_detail/<?php echo $rw->id_visit.'/'.$this->uri->segment(3).'/'.$id_user ?>" method="post" enctype="multipart/form-data">
-											        	<input type="hidden" name="pilihan" value="0">
-											        	<label>Foto</label>
-											        	<input type="file" name="foto" class="form-control">
-											        	<label>Keterangan</label>
-											        	<textarea class="form-control" rows="3" name="ket" required=""></textarea>
-											        	<button type="submit" class="btn btn-success btn-block">SIMPAN</button>
-											        </form>
-											      </div>
-											      <div class="modal-footer">
-											        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-											      </div>
-											    </div>
-
-											  </div>
-											</div>
-
-										</td>
-										
-									</tr>
-					  			<?php endforeach ?>
-								
-							</table>
-							
-					  </div>
-					</div>
-
+				  </div>
 				</div>
 			</div>
-
-
-			<?php endforeach ?>
-			<!-- <a href="app/selesai_visit_outlet/<?php echo get_data('user','id_user',$id_user,'approve').'/'.$id_user.'/'.$dt->group_visit.'/'.$dt->id_outlet; ?>" class="btn btn-warning">SELESAI</a> -->
-
-		<?php } ?>
-
+		  
 		  </div>
 	</div>
+
 </div>
+<hr>
 <?php } ?>

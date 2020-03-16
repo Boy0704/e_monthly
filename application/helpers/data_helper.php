@@ -1,4 +1,17 @@
 <?php 
+function cek_prg_outlet($id_user,$group_visit)
+{
+	$CI =& get_instance();
+	$id_visit_outlet = $CI->db->get_where('header_visit_outlet', array('id_user'=>$id_user,'group_visit'=>$group_visit))->row()->id_visit_outlet;
+	$cek = $CI->db->query("SELECT * FROM visit where pilihan_check = 0 and id_visit_outlet='$id_visit_outlet'");
+	if ($cek->num_rows() > 0) {
+		$n = 0;
+	} else {
+		$n = 1;
+	}
+	return $n;
+	
+}
 
 function cek_prg_atm($id_user,$group_visit)
 {
@@ -12,6 +25,15 @@ function cek_prg_atm($id_user,$group_visit)
 	}
 	return $n;
 	
+}
+
+function prg_outlet($group_visit)
+{
+	$CI =& get_instance();
+	$total = $CI->db->get_where('header_visit_outlet', array('group_visit'=>$group_visit))->num_rows();
+	$done = $CI->db->get_where('header_visit_outlet', array('group_visit'=>$group_visit,'approve'=>1))->num_rows();
+	$prg = ($done/$total)*100;
+	return number_format($prg);
 }
 
 function prg_atm($group_visit)

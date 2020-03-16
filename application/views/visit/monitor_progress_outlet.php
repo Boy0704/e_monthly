@@ -1,8 +1,6 @@
 <div class="row">
 	<div class="col-md-12">
 
-		<a href="app/add_visit" class="btn btn-primary">Add Visit Outlet</a> <br><br>
-
 		<table class="table table-bordered" id="example1">
 			<thead>
 				<tr>
@@ -12,25 +10,14 @@
 					<th>User</th>
 					<th>Progress Approve</th>
 					<th>Dilihat</th>
+					<th>Status</th>
 					<th>Option</th>
 				</tr>
 			</thead>
 			<tbody>
 				<?php 
 				$no = 1;
-				if ($this->session->userdata('level') == 1) {
-					$sql = "SELECT * FROM header_visit_outlet GROUP BY group_visit  order by date DESC";
-					$visit = $this->db->query($sql);
-				} elseif( $this->session->userdata('level') == 2 or $this->session->userdata('level')== 3 or $this->session->userdata('level') == 4 or $this->session->userdata('level') == 6 or $this->session->userdata('level') == 7 ) {
-					$id_user = $this->session->userdata('id_user');
-					$outlet = $this->session->userdata('outlet');
-					$sql = "SELECT * FROM header_visit_outlet WHERE id_outlet IN ($outlet) GROUP BY group_visit order by date DESC";
-					$visit = $this->db->query($sql);
-				
-				} else {
-					$sql = "SELECT * FROM header_visit_outlet GROUP BY group_visit order by date DESC";
-					$visit = $this->db->query($sql);
-				}
+				$visit = $data;
 				// log_r($this->db->last_query());
 				foreach ($visit->result() as $rw) {
 				 ?>
@@ -49,6 +36,9 @@
 					</td>
 					<td>
 						<?php echo $retVal = ($rw->dilihat != '') ? '<span class="label label-success">'.$rw->dilihat.'</span>' : '<span class="label label-warning">Not View</span>' ; ?>
+					</td>
+					<td>
+						<?php echo $retVal = ($rw->progress != 0) ? '<span class="label label-success">Done</span>' : '<span class="label label-warning">On Progress</span>' ; ?>
 					</td>
 					
 					<td>
