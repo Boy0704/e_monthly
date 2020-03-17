@@ -315,7 +315,7 @@ class App extends CI_Controller {
         // $this->session->set_flashdata('message', alert_biasa('berhasil','success'));
         // redirect('app/list_visit_atm','refresh');
 
-        $cek_header = $this->db->query("SELECT * FROM header_visit_atm WHERE ( foto1 IS NULL OR foto2 IS NULL OR ket1 IS NULL OR ket2 IS NULL ) or (foto1 ='' OR foto2 ='' OR ket1 ='' OR ket2 ='') and id_visit_atm='$id_visit_atm' ");
+        $cek_header = $this->db->query("SELECT * FROM header_visit_atm WHERE (( foto1 IS NULL OR foto2 IS NULL OR ket1 IS NULL OR ket2 IS NULL ) or (foto1 ='' OR foto2 ='' OR ket1 ='' OR ket2 ='')) and id_visit_atm='$id_visit_atm' ");
         $cek_detail = $this->db->query("SELECT * FROM visit_atm WHERE (pilihan_check is null  or pilihan_check ='' and pilihan_check!=0) and id_visit_atm='$id_visit_atm' ");
 
         if ($cek_header->num_rows() > 0 || $cek_detail->num_rows() > 0) {
