@@ -144,16 +144,20 @@ foreach ($b as $bd): ?>
 		  	<form action="app/simpan_foto_atm/<?php echo $this->uri->segment(3) ?>" method="POST" enctype="multipart/form-data">
 			
 			<div class="form-group">
-				<label>Foto Dalam</label>
-				<input type="file" name="foto1" class="form-control" >
 				<?php 
+				$wajib1 = '';
+				$wajib2 = '';
 				if ($h->foto1 == '') {
 					echo "*) <i>Tidak ada foto</i>";
+					$wajib1 = 'required';
 				} else {
 				 ?>
 				<p>*) Foto Sebelumnya :</p>
 				<img src="image/visit/<?php echo $h->foto1 ?>" style="width: 100px;">
-				<?php } ?>
+				<?php $wajib1='';} ?>
+				<label>Foto Dalam</label>
+				<input type="file" name="foto1" class="form-control" <?php echo $wajib1 ?>>
+				
 			</div>
 
 			<div class="form-group">
@@ -162,16 +166,18 @@ foreach ($b as $bd): ?>
 			</div>
 
 			<div class="form-group">
-				<label>Foto Luar</label>
-				<input type="file" name="foto2" class="form-control" >
 				<?php 
 				if ($h->foto2 == '') {
 					echo "*) <i>Tidak ada foto</i>";
+					$wajib2 = 'required';
 				} else {
 				 ?>
 				<p>*) Foto Sebelumnya :</p>
 				<img src="image/visit/<?php echo $h->foto2 ?>" style="width: 100px;">
-				<?php } ?>
+				<?php $wajib2='';} ?>
+				<label>Foto Luar</label>
+				<input type="file" name="foto2" class="form-control" <?php echo $wajib2 ?>>
+				
 			</div>
 
 			<div class="form-group">
