@@ -538,6 +538,14 @@ class App extends CI_Controller {
         $image2 = upload_gambar_biasa('foto_atm', './image/visit/', 'jpeg|jpg|png|gif', 10000, 'foto2');
         $ket2 = $this->input->post('ket2');
 
+        if ($_FILES['name']['foto1'] == '') {
+            $image1 = get_data('header_visit_atm','id_visit_atm',$id_visit_atm,'foto1');
+        }
+        if ($_FILES['name']['foto2'] == '') {
+            $image1 = get_data('header_visit_atm','id_visit_atm',$id_visit_atm,'foto2');
+        }
+
+
         $this->db->where('id_visit_atm', $id_visit_atm);
         $this->db->update('header_visit_atm', array(
             'foto1'=>$image1,
