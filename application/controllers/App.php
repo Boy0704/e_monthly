@@ -518,6 +518,8 @@ class App extends CI_Controller {
                 $data = array(
                     'id_detail_check' => $rw->id_detail_check,
                     'pilihan_check'=>$rw->pilihan_check,
+                    'foto'=>$rw->foto,
+                    'keterangan'=>$rw->keterangan,
                     'group_visit' => $rw->group_visit,
                     'id_visit_outlet' => $header_id,
                 );
