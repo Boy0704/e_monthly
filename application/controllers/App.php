@@ -535,16 +535,18 @@ class App extends CI_Controller {
 
     public function simpan_foto_atm($id_visit_atm)
     {
+        // log_r($_FILES);
+
         $image1 = upload_gambar_biasa('foto_atm', './image/visit/', 'jpeg|jpg|png|gif', 10000, 'foto1');
         $ket1 = $this->input->post('ket1');
         $image2 = upload_gambar_biasa('foto_atm', './image/visit/', 'jpeg|jpg|png|gif', 10000, 'foto2');
         $ket2 = $this->input->post('ket2');
 
-        if ($_FILES['name']['foto1'] == '') {
+        if ($_FILES['foto1']['name'] == '') {
             $image1 = get_data('header_visit_atm','id_visit_atm',$id_visit_atm,'foto1');
         }
-        if ($_FILES['name']['foto2'] == '') {
-            $image1 = get_data('header_visit_atm','id_visit_atm',$id_visit_atm,'foto2');
+        if ($_FILES['foto2']['name'] == '') {
+            $image2 = get_data('header_visit_atm','id_visit_atm',$id_visit_atm,'foto2');
         }
 
 
