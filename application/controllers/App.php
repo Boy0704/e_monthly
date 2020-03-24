@@ -425,7 +425,8 @@ class App extends CI_Controller {
                 $progress = 1;
             }
             
-
+            $this->db->where('id_visit_atm', $id_visit_atm);
+            $this->db->update('header_visit_atm', array('approve'=>1,'progress'=>$progress));
             //edit visit atm
             $id_atm = get_data('header_visit_atm','id_visit_atm',$id_visit_atm,'no_id');
             $waktu = get_waktu();
@@ -451,9 +452,6 @@ class App extends CI_Controller {
             }
             $this->db->insert('header_visit_atm', $data);
             $header_id = $this->db->insert_id();
-
-            $this->db->where('id_visit_atm', $header_id);
-            $this->db->update('header_visit_atm', array('approve'=>1,'progress'=>$progress));
 
             $this->db->where('id_visit_atm', $id_visit_atm);
             foreach ($this->db->get('visit_atm')->result() as $rw) {
