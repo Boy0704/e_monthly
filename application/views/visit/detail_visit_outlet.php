@@ -85,6 +85,7 @@ foreach ($data as $dt) {
 					  			
 								
 							</table>
+
 							
 					  </div>
 					</div>
@@ -95,6 +96,16 @@ foreach ($data as $dt) {
 			
 
 			<?php } ?>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-success">
+					  <div class="panel-heading">Komentar</div>
+					  <div class="panel-body">
+					  	<?php echo $dt->komentar ?>
+					  </div>
+					</div>
+				</div>
+			</div>			
 
 			<div class="row">
 				<?php 
