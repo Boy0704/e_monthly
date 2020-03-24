@@ -112,20 +112,6 @@ foreach ($data as $dt) {
 					  <div class="panel-heading">Komentar</div>
 					  <div class="panel-body">
 					  		
-					  		<table class="table">
-					  			<tr>
-					  				<td>Foto 1 :</td>
-					  				<td><img src="image/visit/<?php echo $dt->foto1 ?>" style="width: 100px;"></td>
-					  				<td><?php echo $dt->ket1 ?></td>
-					  			</tr>
-					  			<tr>
-					  				<td>Foto 2 :</td>
-					  				<td><img src="image/visit/<?php echo $dt->foto2 ?>" style="width: 100px;"></td>
-					  				<td><?php echo $dt->ket2 ?></td>
-					  			</tr>
-					  		</table>
-					  		<hr>
-					  		<h4>Komentar :</h4>
 					  		<p><?php echo $dt->komentar ?></p>
 					  </div>
 					</div>
