@@ -58,6 +58,12 @@ foreach ($b as $bd): ?>
 							<td>
 								<label><input type="radio" name="pilihan_<?php echo $rw->id_detail_check ?>"  value="1"data-toggle="modal" data-target="#ya_<?php echo $rw->id_detail_check ?>" <?php echo $ya ?>> Ya </label>					
 								<label><input type="radio" name="pilihan_<?php echo $rw->id_detail_check ?>"  value="0"data-toggle="modal" data-target="#tidak_<?php echo $rw->id_detail_check ?>" <?php echo $tidak ?>> Tidak</label>	
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								<?php if ($rw->foto != '' && $rw->pilihan_check == 0): ?>
+									<a href="image/visit/<?php echo $rw->foto ?>" target="_blank">
+										<img src="image/visit/<?php echo $rw->foto ?>" style="width: 100px;">
+									</a>
+								<?php endif ?>
 
 								<!-- Modal -->
 								<div id="ya_<?php echo $rw->id_detail_check ?>" class="modal fade" role="dialog">

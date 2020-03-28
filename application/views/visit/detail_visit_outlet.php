@@ -60,7 +60,7 @@ foreach ($data as $dt) {
 										</td>
 										<td>
 											<?php 
-											if ($rw->foto != '') {
+											if ($rw->foto != '' and $rw->pilihan_check == 0) {
 												?>
 												<a href="image/visit/<?php echo $rw->foto ?>" target="_blank">
 													<img src="image/visit/<?php echo $rw->foto ?>" style="width: 100px; height: 100px;">
@@ -74,7 +74,11 @@ foreach ($data as $dt) {
 											
 										</td>
 										<td>
-											<?php echo $rw->keterangan ?>
+											<?php
+											if ($rw->pilihan_check == 0) {
+												 echo $rw->keterangan;
+											}
+											 ?>
 										</td>
 
 										

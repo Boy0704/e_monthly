@@ -300,6 +300,23 @@ class App extends CI_Controller {
             $this->session->set_flashdata('message', alert_biasa('masih ada data yang belum terisi','info'));
             redirect('app/add_visit_form/'.$id_visit_outlet,'refresh');
         } else {
+            // admin wil dan admin cab
+            if ($this->session->userdata('level') == '9' || $this->session->userdata('level') == '10') {
+                //update progress jika selesai
+                $group_visit = get_data('visit','id_visit_outlet',$id_visit_outlet,'group_visit');
+                $cek = $this->db->get_where('visit', array('pilihan_check'=>0));
+                if ($cek->num_rows() > 0) {
+                    $this->db->where('group_visit', $group_visit);
+                    $this->db->update('header_visit_outlet', array('progress'=>0));
+                } else {
+                    $this->db->where('group_visit', $group_visit);
+                    $this->db->update('header_visit_outlet', array('progress'=>1));
+                }
+            }
+
+            
+
+
             $this->session->set_flashdata('message', alert_biasa('Visit Selesai dilakukan','success'));
             redirect('app/list_visit_outlet','refresh');
         }
@@ -322,6 +339,20 @@ class App extends CI_Controller {
             $this->session->set_flashdata('message', alert_biasa('masih ada data yang belum terisi','info'));
             redirect('app/add_visit_form_atm/'.$id_visit_atm,'refresh');
         } else {
+            // admin wil dan admin cab
+            if ($this->session->userdata('level') == '9' || $this->session->userdata('level') == '10') {
+                //update progress jika selesai
+                $group_visit = get_data('visit_atm','id_visit_atm',$id_visit_atm,'group_visit');
+                $cek = $this->db->get_where('visit_atm', array('pilihan_check'=>0));
+                if ($cek->num_rows() > 0) {
+                    $this->db->where('group_visit', $group_visit);
+                    $this->db->update('header_visit_atm', array('progress'=>0));
+                } else {
+                    $this->db->where('group_visit', $group_visit);
+                    $this->db->update('header_visit_atm', array('progress'=>1));
+                }
+            }
+
             $this->session->set_flashdata('message', alert_biasa('Visit Selesai dilakukan','success'));
             redirect('app/list_visit_atm','refresh');
         }
