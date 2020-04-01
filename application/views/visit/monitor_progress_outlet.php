@@ -45,7 +45,7 @@
 						<a href="app/detail_visit_outlet/<?php echo $rw->group_visit ?>" class="label label-info">Detail</a>
 						<?php 
 						//bisa edit untuk admin cabang
-						if ($this->session->userdata('level')=='10' and $this->uri->segment(4) == 'on_progress')) {
+						if ($this->session->userdata('level')=='10' and $this->uri->segment(4) == 'on_progress') {
 							?>
 							<a href="app/add_visit_form/<?php echo $rw->id_visit_outlet ?>" class="label label-success">Edit</a>
 							<?php
