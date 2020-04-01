@@ -43,6 +43,15 @@
 					
 					<td>
 						<a href="app/detail_visit_atm/<?php echo $rw->group_visit ?>" class="label label-info">Detail</a>
+
+						<?php 
+						//bisa edit untuk admin cabang
+						if ($this->session->userdata('level')=='10') {
+							?>
+							<a href="app/add_visit_form_atm/<?php echo $rw->id_visit_atm ?>" class="label label-success">Edit</a>
+							<?php
+						}
+						 ?>
 					</td>
 				</tr>
 			<?php $no++;} ?>
