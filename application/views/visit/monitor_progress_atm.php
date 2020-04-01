@@ -46,7 +46,7 @@
 
 						<?php 
 						//bisa edit untuk admin cabang
-						if ($this->session->userdata('level')=='10') {
+						if ($this->session->userdata('level')=='10' and $this->uri->segment(4) == 'on_progress') {
 							?>
 							<a href="app/add_visit_form_atm/<?php echo $rw->id_visit_atm ?>" class="label label-success">Edit</a>
 							<?php
