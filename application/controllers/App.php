@@ -457,7 +457,7 @@ class App extends CI_Controller {
             }
             
             $this->db->where('id_visit_atm', $id_visit_atm);
-            $this->db->update('header_visit_atm', array('approve'=>1,'progress'=>$progress));
+            $this->db->update('header_visit_atm', array('komentar'=>$komentar,'approve'=>1,'progress'=>$progress));
             //edit visit atm
             $id_atm = get_data('header_visit_atm','id_visit_atm',$id_visit_atm,'no_id');
             $waktu = get_waktu();
