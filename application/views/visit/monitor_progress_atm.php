@@ -45,9 +45,10 @@
 						<a href="app/detail_visit_atm/<?php echo $rw->group_visit ?>" class="label label-info">Detail</a>
 
 						<?php 
+						$id_visit_atm = $this->db->get_where('header_visit_atm', array('group_visit'=>$rw->group_visit,'id_user'=>$this->session->userdata('id_user')))->row()->id_visit_atm;
 						//bisa edit untuk admin cabang
-						if ($this->session->userdata('level')=='10' and $this->uri->segment(4) == 'on_progress') {
-							$id_visit_atm = $this->db->get_where('header_visit_atm', array('group_visit'=>$rw->group_visit,'id_user'=>$this->session->userdata('id_user')))->row()->id_visit_atm;
+						if ($this->session->userdata('level')=='10' and $this->uri->segment(4) == 'on_progress' and $id_visit_atm != '') {
+							
 							?>
 							<a href="app/add_visit_form_atm/<?php echo $id_visit_atm ?>" class="label label-success">Edit</a>
 							<?php
