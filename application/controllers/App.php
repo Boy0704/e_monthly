@@ -304,7 +304,7 @@ class App extends CI_Controller {
             if ($this->session->userdata('level') == '9' || $this->session->userdata('level') == '10') {
                 //update progress jika selesai
                 $group_visit = get_data('visit','id_visit_outlet',$id_visit_outlet,'group_visit');
-                $cek = $this->db->get_where('visit', array('pilihan_check'=>0));
+                $cek = $this->db->get_where('visit', array('pilihan_check'=>0,'id_visit_outlet'=>$id_visit_outlet));
                 if ($cek->num_rows() > 0) {
                     $this->db->where('group_visit', $group_visit);
                     $this->db->update('header_visit_outlet', array('progress'=>0));
@@ -343,7 +343,7 @@ class App extends CI_Controller {
             if ($this->session->userdata('level') == '9' || $this->session->userdata('level') == '10') {
                 //update progress jika selesai
                 $group_visit = get_data('visit_atm','id_visit_atm',$id_visit_atm,'group_visit');
-                $cek = $this->db->get_where('visit_atm', array('pilihan_check'=>0));
+                $cek = $this->db->get_where('visit_atm', array('pilihan_check'=>0,'id_visit_atm'=>$id_visit_atm));
                 if ($cek->num_rows() > 0) {
                     $this->db->where('group_visit', $group_visit);
                     $this->db->update('header_visit_atm', array('progress'=>0));
