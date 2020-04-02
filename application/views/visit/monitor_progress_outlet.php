@@ -46,8 +46,9 @@
 						<?php 
 						//bisa edit untuk admin cabang
 						if ($this->session->userdata('level')=='10' and $this->uri->segment(4) == 'on_progress') {
+							$id_visit_outlet = $this->db->get_where('header_visit_outlet', array('group_visit'=>$rw->group_visit,'id_user'=>$this->session->userdata('id_user')))->row()->id_visit_outlet;
 							?>
-							<a href="app/add_visit_form/<?php echo $rw->id_visit_outlet ?>" class="label label-success">Edit</a>
+							<a href="app/add_visit_form/<?php echo $id_visit_outlet ?>" class="label label-success">Edit</a>
 							<?php
 						}
 						 ?>
