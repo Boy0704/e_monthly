@@ -70,7 +70,7 @@
         
           <li><a href="app/list_visit_atm"><i class="fa fa-edit"></i> <span>VISIT ATM</span></a></li>
           <?php 
-          if ($this->session->userdata('level') != 2) {
+          if ($this->session->userdata('level') != 2 and $this->session->userdata('level') != 4) {
             ?>
             <li><a href="app/list_visit_outlet"><i class="fa fa-edit"></i> <span>VISIT OUTLET</span></a></li>
 
